@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "996980235380",
+    "project_id": "menza-react",
+    "storage_bucket": "menza-react.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996980235380:android:3e59e6c858179be1030521",
+        "android_client_info": {
+          "package_name": "com.menza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996980235380-uahcno44psh4qbpr8v4q4niu8i992aha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWxjNTf56cMfThO0Go6hCZ9z4SJ8eePpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996980235380-uahcno44psh4qbpr8v4q4niu8i992aha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
