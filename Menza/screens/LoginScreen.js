@@ -24,7 +24,7 @@ const LoginScreen = () => {
           alert(error.message);
         });
     } else {
-      alert("Please type your email and password");
+      alert("Please enter your email and password");
     }
 
   };
