@@ -8,30 +8,13 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import register from '../hooks/signUp';
+import signIn from '../hooks/signIn';
+import signOut from '../hooks/signOut';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const register = () => {
-    if (email != null && email.length != 0 && email != '' && password != null && password.length != 0 && password != '') {
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(userCred => {
-          alert(userCred.user.email);
-        })
-        .catch(error => {
-          alert(error.message);
-        });
-    } else {
-      alert("Please enter your email and password");
-    }
-
-  };
-
-  const signOut = () => {
-    auth().signOut().then(() => alert("Sign-out uspesan!")).catch(() => alert("Not signed in"));
-  }
 
   return (
     <ScrollView contentContainerStyle={styles.container} behavior="padding">
@@ -53,7 +36,7 @@ const LoginScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={() => alert('login')} style={styles.button}>
+        <TouchableOpacity onPress={signIn} style={styles.button}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
