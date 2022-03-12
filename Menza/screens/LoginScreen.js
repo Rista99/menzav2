@@ -7,10 +7,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, { useState } from 'react';
-import auth from '@react-native-firebase/auth';
-import register from '../hooks/signUp';
-import signIn from '../hooks/signIn';
-import signOut from '../hooks/signOut';
+import { register } from '../hooks/signUp';
+import { signIn } from '../hooks/signIn';
+import { signOut } from '../hooks/signOut';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +20,7 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
+          autoCapitalize='none'
           placeholderTextColor="#C7C7CD"
           value={email}
           onChangeText={text => setEmail(text)}
@@ -28,6 +28,7 @@ const LoginScreen = () => {
         />
         <TextInput
           placeholder="Password"
+          autoCapitalize='none'
           placeholderTextColor="#C7C7CD"
           value={password}
           onChangeText={text => setPassword(text)}
@@ -36,11 +37,11 @@ const LoginScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={signIn} style={styles.button}>
+        <TouchableOpacity onPress={() => signIn(email, password)} style={styles.button}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={register}
+          onPress={() => register(email, password)}
           style={[styles.button, styles.buttonOutline]}>
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>

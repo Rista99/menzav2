@@ -1,4 +1,6 @@
-const register = () => {
+import auth from '@react-native-firebase/auth';
+
+const register = (email, password) => {
     if (email != null && email.length != 0 && email != '' && password != null && password.length != 0 && password != '') {
         auth()
             .createUserWithEmailAndPassword(email, password)
@@ -13,4 +15,4 @@ const register = () => {
     }
 };
 
-export default register;
+export { register };

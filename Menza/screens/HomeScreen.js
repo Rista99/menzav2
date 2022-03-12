@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import signOut from '../hooks/signOut';
+import { signOut } from '../hooks/signOut';
 
 function HomeScreen() {
     return (
