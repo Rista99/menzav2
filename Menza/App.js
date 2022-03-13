@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import auth from '@react-native-firebase/auth';
-import LogoutButton from './components/LogoutButton';
+import { LogoutButton } from './components/LogoutButton';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +31,11 @@ export default function App() {
         {!user ?
           <Stack.Screen name="Login" component={LoginScreen} /> :
           (
-            <Stack.Screen name="Home" component={HomeScreen} options={{ headerRight: () => <LogoutButton />, headerTitleAlign: 'center' }} />
+            <>
+              <Stack.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({ headerRight: () => <HeaderRightButtons navigation={navigation} />, headerTitleAlign: 'left', title: 'Menza' })}
+              />
+              <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profil' }} />
+            </>
           )
         }
       </Stack.Navigator>
