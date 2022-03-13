@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 
 function HomeScreen() {
@@ -27,16 +27,19 @@ function HomeScreen() {
 
     return (
         <>
-
-            <ScrollView style={{ flex: 1, marginHorizontal: 20, marginTop: 10 }}
-                contentContainerStyle={{ justifyContent: 'flex-start', alignContent: 'flex-start' }}>
+            <ScrollView style={styles.scrollViewStyle}
+                contentContainerStyle={styles.scrollViewContentStyle}>
                 {meals.map(m => {
                     return (
-                        <View style={{ backgroundColor: 'white', marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between', width: '100%', borderRadius: 10, flexWrap: 'wrap' }} key={m.id}>
-                            <Image source={m.avatar} style={{ marginRight: 10, height: 70, width: 70 }} />
-                            <Text style={{ marginRight: 40, color: "black", marginTop: 20, fontSize: 20 }}>{m.name}</Text>
-                            <Text style={{ fontWeight: '700', marginRight: 10, color: "black", marginTop: 20, fontSize: 20 }}>{m.numberOfMeals}</Text>
-                        </View>
+                        <TouchableOpacity key={m.id} onPress={() => {
+                            alert(`Type: ${m.name}\nMeals left: ${m.numberOfMeals}`);
+                        }}>
+                            <View style={styles.cardStyle} >
+                                <Image source={m.avatar} style={styles.cardImageStyle} />
+                                <Text style={styles.cardTextCenter}>{m.name}</Text>
+                                <Text style={styles.cardTextRight}>{m.numberOfMeals}</Text>
+                            </View>
+                        </TouchableOpacity>
                     )
                 })}
             </ScrollView>
@@ -44,3 +47,42 @@ function HomeScreen() {
     );
 }
 export default HomeScreen
+
+const styles = StyleSheet.create({
+    scrollViewStyle: {
+        flex: 1,
+        marginHorizontal: 20,
+        marginTop: 10
+    },
+    scrollViewContentStyle: {
+        justifyContent: 'flex-start',
+        alignContent: 'flex-start'
+    },
+    cardStyle: {
+        backgroundColor: 'white',
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        borderRadius: 10,
+        flexWrap: 'wrap'
+    },
+    cardImageStyle: {
+        marginRight: 10,
+        height: 70,
+        width: 70
+    },
+    cardTextCenter: {
+        marginRight: 40,
+        color: "black",
+        marginTop: 20,
+        fontSize: 20
+    },
+    cardTextRight: {
+        fontWeight: '700',
+        marginRight: 10,
+        color: "black",
+        marginTop: 20,
+        fontSize: 20
+    }
+});
