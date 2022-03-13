@@ -30,13 +30,11 @@ export default function App() {
       <Stack.Navigator>
         {!user ?
           <Stack.Screen name="Login" component={LoginScreen} /> :
-          (
-            <>
-              <Stack.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({ headerRight: () => <HeaderRightButtons navigation={navigation} />, headerTitleAlign: 'left', title: 'Menza' })}
-              />
-              <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profil' }} />
-            </>
-          )
+          <>
+            <Stack.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({ headerRight: () => <HeaderRightButtons navigation={navigation} />, headerTitleAlign: 'left', title: 'Menza' })}
+            />
+            <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profil' }} />
+          </>
         }
       </Stack.Navigator>
     </NavigationContainer>

@@ -65,15 +65,13 @@ function HomeScreen() {
             meals: []
         },
     ]
-
     return (
         <>
             <ScrollView style={styles.scrollViewStyle}
                 contentContainerStyle={styles.scrollViewContentStyle}>
-
                 {days.map((d) => {
                     return (
-                        <View style={{ marginBottom: 10, width: '100%' }} key={d.id}>
+                        <View key={d.id} style={{ marginBottom: 10, width: '100%' }}>
                             <View style={[styles.divider, { backgroundColor: 'white', height: 50, justifyContent: 'center', marginBottom: 10 }]}>
                                 <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: 'black' }}>{`${d.day} - ${d.date}`}</Text>
                             </View>
@@ -85,15 +83,13 @@ function HomeScreen() {
                                 :
                                 d.meals.map(m => {
                                     return (
-                                        <>
-                                            <View style={styles.cardStyle} key={m.id} >
-                                                <Image source={m.avatar} style={styles.cardImageStyle} />
-                                                <Text style={styles.cardTextCenter}>{m.name}</Text>
-                                                <TouchableOpacity onPress={() => alert(m.nutrients)}>
-                                                    <Image style={{ width: 25, height: 25, marginRight: 15, marginVertical: '60%' }} source={require('../images/info.png')} />
-                                                </TouchableOpacity>
-                                            </View>
-                                        </>
+                                        <View style={styles.cardStyle} key={m.id}>
+                                            <Image source={m.avatar} style={styles.cardImageStyle} />
+                                            <Text style={styles.cardTextCenter}>{m.name}</Text>
+                                            <TouchableOpacity onPress={() => alert(m.nutrients)}>
+                                                <Image style={{ width: 25, height: 25, marginRight: 15, marginVertical: '60%' }} source={require('../images/info.png')} />
+                                            </TouchableOpacity>
+                                        </View>
                                     )
                                 })}
                         </View>
