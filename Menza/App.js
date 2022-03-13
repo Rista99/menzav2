@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import auth from '@react-native-firebase/auth';
-import { LogoutButton } from './components/LogoutButton';
+import { HeaderRightButtons } from './components/HeaderRightButtons';
 import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();

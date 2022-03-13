@@ -101,15 +101,15 @@ function HomeScreen() {
                 })}
 
             </ScrollView>
-            <View style={{ backgroundColor: 'white', height: 50, flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                <TouchableOpacity style={{ justifyContent: 'center', borderColor: 'red', borderStyle: 'solid' }}>
-                    <Text style={{ fontSize: 15, fontWeight: '500', color: 'black' }}>Dorucak: 10</Text>
+            <View style={styles.footer}>
+                <TouchableOpacity style={{ justifyContent: 'center' }}>
+                    <Text style={styles.footerButton}>Dorucak: 10</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 15, fontWeight: '500', color: 'black' }}>Rucak: 20</Text>
+                    <Text style={styles.footerButton}>Rucak: 20</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 15, fontWeight: '500', color: 'black' }}>Vecera: 8</Text>
+                    <Text style={styles.footerButton}>Vecera: 8</Text>
                 </TouchableOpacity>
             </View>
         </>
@@ -159,4 +159,15 @@ const styles = StyleSheet.create({
         borderTopColor: '#D0D0D0',
         width: "100%"
     },
+    footer: {
+        backgroundColor: 'white',
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
+    footerButton: {
+        fontSize: 15,
+        fontWeight: '500',
+        color: 'black'
+    }
 });
