@@ -4,7 +4,7 @@ import React from 'react'
 const Footer = ({ navigation }) => {
     return (
         <View style={styles.footer}>
-            <TouchableOpacity style={{ justifyContent: 'center' }} onPress={() => navigation.navigate('Profile')}>
+            <TouchableOpacity style={{ justifyContent: 'center' }}>
                 <Text style={styles.footerButton}>Dorucak: 10</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{ justifyContent: 'center' }}>
