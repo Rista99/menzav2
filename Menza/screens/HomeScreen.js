@@ -1,8 +1,9 @@
 import React from 'react'
 import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, Touchable } from 'react-native';
+import Footer from '../components/Footer';
 
 
-function HomeScreen() {
+function HomeScreen({ navigation }) {
 
     const days = [
         {
@@ -35,8 +36,7 @@ function HomeScreen() {
             id: 2,
             day: 'Utorak',
             date: '11.3.2022.',
-            meals: [
-            ]
+            meals: []
         },
         {
             id: 3,
@@ -97,17 +97,7 @@ function HomeScreen() {
                 })}
 
             </ScrollView>
-            <View style={styles.footer}>
-                <TouchableOpacity style={{ justifyContent: 'center' }}>
-                    <Text style={styles.footerButton}>Dorucak: 10</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ justifyContent: 'center' }}>
-                    <Text style={styles.footerButton}>Rucak: 20</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ justifyContent: 'center' }}>
-                    <Text style={styles.footerButton}>Vecera: 8</Text>
-                </TouchableOpacity>
-            </View>
+            <Footer navigation={navigation} />
         </>
     );
 }
@@ -155,15 +145,4 @@ const styles = StyleSheet.create({
         borderTopColor: '#D0D0D0',
         width: "100%"
     },
-    footer: {
-        backgroundColor: 'white',
-        height: 50,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly'
-    },
-    footerButton: {
-        fontSize: 15,
-        fontWeight: '500',
-        color: 'black'
-    }
 });
