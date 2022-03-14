@@ -1,8 +1,13 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { ScrollView, StyleSheet, Image } from 'react-native'
+import React, { useState } from 'react'
+import { Divider, List, useTheme } from 'react-native-paper'
 
 const LunchScreen = () => {
+    const { colors } = useTheme();
 
+    const [expanded, setExpanded] = useState(false);
+
+    const handlePress = () => setExpanded(!expanded);
     const days = [
         {
             id: 1,
@@ -66,7 +71,23 @@ const LunchScreen = () => {
 
     return (
         <ScrollView>
-            <Text style={{ color: 'black' }}>RUCAK</Text>
+            <List.Section>
+                {days.map(d => {
+                    return (
+                        <List.Accordion title={`${d.day} - ${d.date}`} key={d.id} style={{ marginBottom: 10, backgroundColor: colors.surface, borderWidth: 1 }} theme={{ dark: 0 }}>
+                            {d.meals.map(m => {
+                                return (
+                                    <>
+                                        <List.Item left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/lunch.png')} />} title={m.name} key={m.id} onPress={() => { }} style={{ backgroundColor: colors.surface, paddingVertical: 20 }} titleStyle={{}} >
+                                        </List.Item>
+                                        <Divider />
+                                    </>
+                                )
+                            })}
+                        </List.Accordion>
+                    );
+                })}
+            </List.Section>
         </ScrollView>
     )
 }

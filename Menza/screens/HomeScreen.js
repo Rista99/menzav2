@@ -73,12 +73,12 @@ function HomeScreen({ navigation }) {
                 contentContainerStyle={styles.scrollViewContentStyle}>
                 {days.map((d) => {
                     return (
-                        <View key={d.id} style={{ marginBottom: 10, width: '100%' }}>
-                            <View style={[{ height: 50, justifyContent: 'center', marginBottom: 10, backgroundColor: colors.surface }]}>
-                                <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600' }}>{`${d.day} - ${d.date}`}</Text>
+                        <View key={d.id} style={{ width: '100%' }}>
+                            <View style={[{ height: 50, justifyContent: 'center', backgroundColor: colors.surface }]}>
+                                <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: colors.text }}>{`${d.day} - ${d.date}`}</Text>
                             </View>
                             {d.meals.length === 0 ?
-                                <View style={[styles.cardStyle, { justifyContent: 'center', marginVertical: 20, paddingVertical: 30, backgroundColor: colors.surface }]}>
+                                <View style={[styles.cardStyle, { justifyContent: 'center', paddingVertical: 25, backgroundColor: colors.surface }]}>
                                     <Text style={{ textAlign: 'center' }}>Nema nista naruceno</Text>
                                 </View>
                                 :
@@ -87,7 +87,7 @@ function HomeScreen({ navigation }) {
                                         <View style={[styles.cardStyle, { backgroundColor: colors.surface, flex: 1 }]} key={m.id}>
                                             <Image source={m.avatar} style={styles.cardImageStyle} />
                                             <Text style={styles.cardTextCenter}>{m.name}</Text>
-                                            <IconButton icon='info' style={{ marginTop: 20, }} onPress={() => alert(m.nutrients)} />
+                                            <IconButton icon='info' onPress={() => alert(m.nutrients)} />
                                         </View>
                                     )
                                 })}
@@ -115,7 +115,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: 12,
         flexWrap: 'wrap',
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        marginTop: 10,
+        alignItems: 'center'
     },
     cardImageStyle: {
         marginRight: 10,

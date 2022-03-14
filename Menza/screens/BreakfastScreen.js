@@ -1,10 +1,14 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { ScrollView, StyleSheet, Image } from 'react-native'
 import React, { useState } from 'react'
-import { List, useTheme } from 'react-native-paper'
+import { Divider, List, useTheme } from 'react-native-paper'
 
 const BreakfastScreen = () => {
 
     const { colors } = useTheme();
+
+    const [expanded, setExpanded] = useState(false);
+
+    const handlePress = () => setExpanded(!expanded);
 
     const days = [
         {
@@ -67,10 +71,6 @@ const BreakfastScreen = () => {
         },
     ]
 
-    const [expanded, setExpanded] = useState(false);
-
-    const handlePress = () => setExpanded(!expanded);
-
     return (
         <ScrollView>
             <List.Section>
@@ -79,7 +79,11 @@ const BreakfastScreen = () => {
                         <List.Accordion title={`${d.day} - ${d.date}`} key={d.id} style={{ marginBottom: 10, backgroundColor: colors.surface, borderWidth: 1 }} theme={{ dark: 0 }}>
                             {d.meals.map(m => {
                                 return (
-                                    <List.Item l title={m.name} key={m.id} onPress={() => { }} style={{ backgroundColor: colors.surface, marginVertical: 10, paddingVertical: 20 }} />
+                                    <>
+                                        <List.Item left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/breakfast.png')} />} title={m.name} key={m.id} onPress={() => { }} style={{ backgroundColor: colors.surface, paddingVertical: 20 }} titleStyle={{}} >
+                                        </List.Item>
+                                        <Divider />
+                                    </>
                                 )
                             })}
                         </List.Accordion>
