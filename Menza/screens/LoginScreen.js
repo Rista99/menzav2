@@ -2,56 +2,42 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
-  TouchableOpacity,
+  Image,
+  KeyboardAvoidingView,
+  TextInput
 } from 'react-native';
 import React, { useState } from 'react';
-import { register } from '../hooks/signUp';
 import { signIn } from '../hooks/signIn';
-import { signOut } from '../hooks/signOut';
+import { Button } from 'react-native-paper';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   return (
-    <ScrollView contentContainerStyle={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          autoCapitalize='none'
-          placeholderTextColor="#C7C7CD"
-          value={email}
-          onChangeText={text => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          autoCapitalize='none'
-          placeholderTextColor="#C7C7CD"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={() => signIn(email, password)} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => register(email, password)}
-          style={[styles.button, styles.buttonOutline]}>
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={signOut}
-          style={[styles.button, styles.buttonOutlineRed]}>
-          <Text style={styles.buttonOutlineTextRed}>Sign Out</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Image source={require('../images/welcome.png')} style={{ maxWidth: 150, maxHeight: 150, marginTop: '20%', flex: 1 }} />
+      <Text style={{ color: 'black', marginTop: '5%', fontSize: 20, fontWeight: '600', maxWidth: '70%', textAlign: 'center', marginBottom: '10%', flex: 1, maxHeight: '8%' }}>Dobrodošli u mobilnu aplikaciju "Menza Srbija"</Text>
+      <TextInput
+        placeholder="Email"
+        autoCapitalize='none'
+        value={email}
+        placeholderTextColor="#C7C7CD"
+        onChangeText={text => setEmail(text)}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Password"
+        autoCapitalize='none'
+        placeholderTextColor="#C7C7CD"
+        value={password}
+        onChangeText={text => setPassword(text)}
+        style={styles.input}
+        secureTextEntry
+      />
+      <Button icon='logout' contentStyle={{ height: 50, flexDirection: 'row-reverse' }} style={{ backgroundColor: '#0782F9', borderRadius: 10, marginTop: '10%', width: '50%' }} mode="outlined" color='white' onPress={() => signIn(email, password)}>Login</Button>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -60,59 +46,18 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inputContainer: {
-    width: '80%',
+    alignItems: 'center'
   },
   input: {
+    paddingHorizontal: 15,
     backgroundColor: 'white',
     color: 'black',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    flex: 1,
+    width: '80%',
     borderRadius: 10,
-    marginTop: 5,
-  },
-  buttonContainer: {
-    width: '60%',
-    justifyContent: 'center',
-    alignContent: 'center',
-    marginTop: 40,
-  },
-  button: {
-    backgroundColor: '#0782F9',
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
-  },
-  buttonOutlineRed: {
-    backgroundColor: 'red',
-    color: 'red',
-    marginTop: 5,
-    borderColor: 'red',
-    borderWidth: 2,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  buttonOutlineText: {
-    color: '#0782F9',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  buttonOutlineTextRed: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
+    marginVertical: 5,
+    paddingVertical: '5%',
+    maxHeight: 60,
+    minHeight: 60
   },
 });

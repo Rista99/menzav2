@@ -24,29 +24,29 @@ const ProfileScreen = () => {
                 <View style={{ alignItems: 'center', width: '100%', marginTop: '5%', borderBottomColor: '#D0D0D0', borderBottomWidth: 1, paddingBottom: '10%' }}>
                     <Text style={{ color: 'black', fontWeight: '700', fontSize: 20 }}>{`${user.ime} ${user.prezime}`}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginVertical: 15 }}>
-                    <Text style={{ color: 'black', fontSize: 17 }}>Broj Indeksa</Text>
-                    <Text style={{ color: 'black', fontSize: 17 }}>{user.brIndeksa}</Text>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>Broj Indeksa</Text>
+                    <Text style={styles.textStyle}>{user.brIndeksa}</Text>
                 </View >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginVertical: 15 }}>
-                    <Text style={{ color: 'black', fontSize: 17 }}>Univerzitet:</Text>
-                    <Text style={{ color: 'black', fontSize: 17 }}>{user.univerzitet}</Text>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>Univerzitet:</Text>
+                    <Text style={styles.textStyle}>{user.univerzitet}</Text>
                 </View >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginVertical: 15, flexWrap: 'wrap' }}>
-                    <Text style={{ color: 'black', fontSize: 17 }}>Fakultet:</Text>
-                    <Text style={{ color: 'black', fontSize: 17, maxWidth: '60%' }}>{user.fakultet}</Text>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>Fakultet:</Text>
+                    <Text style={styles.textStyle}>{user.fakultet}</Text>
                 </View >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginVertical: 15 }}>
-                    <Text style={{ color: 'black', fontSize: 17 }}>Godina studija:</Text>
-                    <Text style={{ color: 'black', fontSize: 17 }}>{user.godinaStudija}</Text>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>Godina studija:</Text>
+                    <Text style={styles.textStyle}>{user.godinaStudija}</Text>
                 </View >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginVertical: 15 }}>
-                    <Text style={{ color: 'black', fontSize: 17 }}>Email:</Text>
-                    <Text style={{ color: 'black', fontSize: 17 }}>{user.email}</Text>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>Email:</Text>
+                    <Text style={styles.textStyle}>{user.email}</Text>
                 </View >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginVertical: 15 }}>
-                    <Text style={{ color: 'black', fontSize: 17 }}>Način finansiranja:</Text>
-                    <Text style={{ color: 'black', fontSize: 17 }}>{user.nacinFinansiranja}</Text>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>Način finansiranja:</Text>
+                    <Text style={styles.textStyle}>{user.nacinFinansiranja}</Text>
                 </View >
             </ScrollView >
             <Footer />
@@ -55,3 +55,18 @@ const ProfileScreen = () => {
 }
 
 export default ProfileScreen
+
+const styles = StyleSheet.create({
+    viewStyle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: 10,
+        marginVertical: 15,
+        flexWrap: 'wrap'
+    },
+    textStyle: {
+        color: 'black',
+        fontSize: 17,
+        maxWidth: '70%'
+    }
+})
