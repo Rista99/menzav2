@@ -1,7 +1,8 @@
-import React from 'react';
+import React from 'react'
 import { View, Text, ScrollView, Image, StyleSheet } from 'react-native';
 import { FAB, IconButton, useTheme } from 'react-native-paper';
 import Footer from '../components/Footer';
+
 
 function HomeScreen({ navigation }) {
     const { colors } = useTheme();
@@ -14,32 +15,30 @@ function HomeScreen({ navigation }) {
             meals: [
                 {
                     id: 1,
-                    name: 'Jaje na oko sa slaninom',
+                    name: "Jaje na oko sa slaninom",
                     avatar: require('../images/breakfast.png'),
-                    nutrients:
-                        'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+                    nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+
                 },
                 {
                     id: 2,
-                    name: 'Bečka šnicla sa krompir pireom',
+                    name: "Bečka šnicla sa krompir pireom",
                     avatar: require('../images/lunch.png'),
-                    nutrients:
-                        'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+                    nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
                 },
                 {
                     id: 3,
-                    name: 'Topljeni kačkavalj sa varivom od šargarepe',
+                    name: "Topljeni kačkavalj sa varivom od šargarepe",
                     avatar: require('../images/dinner.png'),
-                    nutrients:
-                        'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+                    nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
                 },
-            ],
+            ]
         },
         {
             id: 2,
             day: 'Utorak',
             date: '11.3.2022.',
-            meals: [],
+            meals: []
         },
         {
             id: 3,
@@ -48,46 +47,60 @@ function HomeScreen({ navigation }) {
             meals: [
                 {
                     id: 1,
-                    name: 'Jaje na oko sa slaninom',
+                    name: "Jaje na oko sa slaninom",
                     avatar: require('../images/breakfast.png'),
-                    nutrients:
-                        'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+                    nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
                 },
-            ]
-    return(
-        <>
-<ScrollView style = { styles.scrollViewStyle }
-        contentContainerStyle = { styles.scrollViewContentStyle } >
                 {
-                    days.map((d) => {
-                        return (
-                            <View key={d.id} style={{ width: '100%' }}>
-                                <View style={[{ height: 50, justifyContent: 'center', backgroundColor: colors.surface }]}>
-                                    <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: colors.text }}>{`${d.day} - ${d.date}`}</Text>
-                                </View>
-                                {d.meals.length === 0 ?
-                                    <View style={[styles.cardStyle, { justifyContent: 'center', paddingVertical: 25, backgroundColor: colors.surface }]}>
-                                        <Text style={{ textAlign: 'center' }}>Nema nista naruceno</Text>
-                                    </View>
-                                    :
-                                    d.meals.map(m => {
-                                        return (
-                                            <View style={[styles.cardStyle, { backgroundColor: colors.surface, flex: 1 }]} key={m.id}>
-                                                <Image source={m.avatar} style={styles.cardImageStyle} />
-                                                <Text style={styles.cardTextCenter}>{m.name}</Text>
-                                                <IconButton icon='info' onPress={() => alert(m.nutrients)} />
-                                            </View>
-                                        );
-                                    })}
+                    id: 2,
+                    name: "Bečka šnicla sa krompir pireom",
+                    avatar: require('../images/lunch.png'),
+                    nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                },
+
+            ]
+        },
+        {
+            id: 4,
+            day: 'Cetvrtak',
+            date: '13.3.2022.',
+            meals: []
+        },
+    ]
+    return (
+        <>
+            <ScrollView style={styles.scrollViewStyle}
+                contentContainerStyle={styles.scrollViewContentStyle}>
+                {days.map((d) => {
+                    return (
+                        <View key={d.id} style={{ width: '100%' }}>
+                            <View style={[{ height: 50, justifyContent: 'center', backgroundColor: colors.surface }]}>
+                                <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: colors.text }}>{`${d.day} - ${d.date}`}</Text>
                             </View>
-                        );
-                    })
-                }
-    </ScrollView ><Footer /><FAB icon='edit' style={[[styles.fab], { backgroundColor: colors.primary }]} onPress={() => navigation.navigate('Order')} />
-    </>
+                            {d.meals.length === 0 ?
+                                <View style={[styles.cardStyle, { justifyContent: 'center', paddingVertical: 25, backgroundColor: colors.surface }]}>
+                                    <Text style={{ textAlign: 'center' }}>Nema nista naruceno</Text>
+                                </View>
+                                :
+                                d.meals.map(m => {
+                                    return (
+                                        <View style={[styles.cardStyle, { backgroundColor: colors.surface, flex: 1 }]} key={m.id}>
+                                            <Image source={m.avatar} style={styles.cardImageStyle} />
+                                            <Text style={styles.cardTextCenter}>{m.name}</Text>
+                                            <IconButton icon='info' onPress={() => alert(m.nutrients)} />
+                                        </View>
+                                    )
+                                })}
+                        </View>
+                    )
+                })}
+            </ScrollView>
+            <Footer />
+            <FAB icon='edit' style={[[styles.fab], { backgroundColor: colors.primary }]} onPress={() => navigation.navigate('Order')} />
+        </>
     );
 }
-export default HomeScreen;
+export default HomeScreen
 
 const styles = StyleSheet.create({
     scrollViewStyle: {
