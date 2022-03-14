@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, Touchable } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { View, Text, ScrollView, Image, StyleSheet } from 'react-native';
+import { FAB, IconButton, useTheme } from 'react-native-paper';
 import Footer from '../components/Footer';
 
 
 function HomeScreen({ navigation }) {
-
+    const { colors } = useTheme();
 
     const days = [
         {
@@ -74,22 +74,20 @@ function HomeScreen({ navigation }) {
                 {days.map((d) => {
                     return (
                         <View key={d.id} style={{ marginBottom: 10, width: '100%' }}>
-                            <View style={[styles.divider, { backgroundColor: 'white', height: 50, justifyContent: 'center', marginBottom: 10 }]}>
-                                <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: 'black' }}>{`${d.day} - ${d.date}`}</Text>
+                            <View style={[{ height: 50, justifyContent: 'center', marginBottom: 10, backgroundColor: colors.surface }]}>
+                                <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600' }}>{`${d.day} - ${d.date}`}</Text>
                             </View>
                             {d.meals.length === 0 ?
-                                <View style={[styles.cardStyle, { justifyContent: 'center', marginVertical: 20, paddingVertical: 30 }]}>
-                                    <Text style={{ color: 'black', textAlign: 'center' }}>Nema nista naruceno</Text>
+                                <View style={[styles.cardStyle, { justifyContent: 'center', marginVertical: 20, paddingVertical: 30, backgroundColor: colors.surface }]}>
+                                    <Text style={{ textAlign: 'center' }}>Nema nista naruceno</Text>
                                 </View>
                                 :
                                 d.meals.map(m => {
                                     return (
-                                        <View style={styles.cardStyle} key={m.id}>
+                                        <View style={[styles.cardStyle, { backgroundColor: colors.surface, flex: 1 }]} key={m.id}>
                                             <Image source={m.avatar} style={styles.cardImageStyle} />
                                             <Text style={styles.cardTextCenter}>{m.name}</Text>
-                                            <TouchableOpacity onPress={() => alert(m.nutrients)}>
-                                                <Image style={{ width: 25, height: 25, marginRight: 15, marginVertical: '60%' }} source={require('../images/info.png')} />
-                                            </TouchableOpacity>
+                                            <IconButton icon='info' style={{ marginTop: 20, }} onPress={() => alert(m.nutrients)} />
                                         </View>
                                     )
                                 })}
@@ -98,8 +96,7 @@ function HomeScreen({ navigation }) {
                 })}
             </ScrollView>
             <Footer />
-            <FAB icon='edit' style={styles.fab} onPress={() => navigation.navigate('Order')} />
-
+            <FAB icon='edit' style={[[styles.fab], { backgroundColor: colors.primary }]} onPress={() => navigation.navigate('Order')} />
         </>
     );
 }
@@ -113,11 +110,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     cardStyle: {
-        backgroundColor: 'white',
         marginBottom: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderRadius: 10,
+        borderRadius: 12,
         flexWrap: 'wrap',
         marginHorizontal: 10
     },
@@ -129,7 +125,6 @@ const styles = StyleSheet.create({
     cardTextCenter: {
         marginRight: 40,
         marginTop: '5%',
-        color: "black",
         fontSize: 15,
         flexWrap: 'wrap',
         maxWidth: '50%',
@@ -138,7 +133,6 @@ const styles = StyleSheet.create({
     cardTextRight: {
         fontWeight: '700',
         marginRight: 10,
-        color: "black",
         marginTop: 20,
         fontSize: 20
     },

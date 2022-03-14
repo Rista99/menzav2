@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { ToggleButton } from 'react-native-paper';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import BreakfastScreen from './BreakfastScreen';
 import LunchScreen from './LunchScreen';
@@ -11,7 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const OrderScreen = () => {
     return (
-        <NavigationContainer independent>
+        <NavigationContainer independent theme={DarkTheme}>
             <Tab.Navigator>
                 <Tab.Screen name="Breakfast" component={BreakfastScreen} options={{ title: "Doručak" }} />
                 <Tab.Screen name="Lunch" component={LunchScreen} options={{ title: "Ručak" }} />

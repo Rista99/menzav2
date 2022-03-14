@@ -21,7 +21,6 @@ export default Footer
 
 const styles = StyleSheet.create({
     footer: {
-        backgroundColor: 'white',
         height: 50,
         flexDirection: 'row',
         justifyContent: 'space-evenly'
@@ -29,6 +28,5 @@ const styles = StyleSheet.create({
     footerButton: {
         fontSize: 15,
         fontWeight: '500',
-        color: 'black'
     }
 })

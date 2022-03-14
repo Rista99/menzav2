@@ -1,11 +1,11 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Footer from '../components/Footer'
-import { Avatar } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ProfileScreen = () => {
 
-
+    const { colors } = useTheme();
     const user = {
         ime: 'Nebojša',
         prezime: 'Zoraja',
@@ -19,12 +19,12 @@ const ProfileScreen = () => {
 
     return (
         <>
-            <ScrollView style={{ backgroundColor: 'white', margin: 10, borderRadius: 10 }}>
+            <ScrollView style={{ backgroundColor: colors.surface, margin: 10, borderRadius: 10 }}>
                 <View style={{ alignItems: 'center', width: '100%', marginTop: '10%' }}>
-                    <Icon name="user-circle-o" size={100} color="black" />
+                    <Icon name="user-circle-o" size={100} />
                 </View>
                 <View style={{ alignItems: 'center', width: '100%', marginTop: '5%', borderBottomColor: '#D0D0D0', borderBottomWidth: 1, paddingBottom: '10%' }}>
-                    <Text style={{ color: 'black', fontWeight: '700', fontSize: 20 }}>{`${user.ime} ${user.prezime}`}</Text>
+                    <Text style={{ fontWeight: '700', fontSize: 20 }}>{`${user.ime} ${user.prezime}`}</Text>
                 </View>
                 <View style={styles.viewStyle}>
                     <Text style={styles.textStyle}>Broj Indeksa</Text>
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     textStyle: {
-        color: 'black',
         fontSize: 17,
         maxWidth: '70%'
     }

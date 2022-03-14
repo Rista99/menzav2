@@ -1,7 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import React, { useState } from 'react'
+import { List, useTheme } from 'react-native-paper'
 
 const BreakfastScreen = () => {
+
+    const { colors } = useTheme();
 
     const days = [
         {
@@ -64,13 +67,53 @@ const BreakfastScreen = () => {
         },
     ]
 
+    const [expanded, setExpanded] = useState(false);
+
+    const handlePress = () => setExpanded(!expanded);
+
     return (
         <ScrollView>
-            <Text style={{ color: 'black' }}>DORUCAK</Text>
+            <List.Section>
+                {days.map(d => {
+                    return (
+                        <List.Accordion title={`${d.day} - ${d.date}`} key={d.id} style={{ marginBottom: 10, backgroundColor: colors.surface, borderWidth: 1 }} theme={{ dark: 0 }}>
+                            {d.meals.map(m => {
+                                return (
+                                    <List.Item l title={m.name} key={m.id} onPress={() => { }} style={{ backgroundColor: colors.surface, marginVertical: 10, paddingVertical: 20 }} />
+                                )
+                            })}
+                        </List.Accordion>
+                    );
+                })}
+            </List.Section>
         </ScrollView>
     )
 }
 
 export default BreakfastScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    cardStyle: {
+        backgroundColor: 'white',
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderRadius: 10,
+        flexWrap: 'wrap',
+        marginHorizontal: 10
+    },
+    cardImageStyle: {
+        marginRight: 10,
+        height: 70,
+        width: 70
+    },
+    cardTextCenter: {
+        marginRight: 40,
+        marginTop: '5%',
+        color: "black",
+        fontSize: 15,
+        flexWrap: 'wrap',
+        maxWidth: '50%',
+        textAlign: 'center'
+    },
+})
