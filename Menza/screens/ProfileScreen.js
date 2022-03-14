@@ -1,8 +1,10 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Footer from '../components/Footer'
-
+import { Avatar } from 'react-native-paper'
+import Icon from 'react-native-vector-icons/FontAwesome';
 const ProfileScreen = () => {
+
 
     const user = {
         ime: 'Nebojša',
@@ -19,7 +21,7 @@ const ProfileScreen = () => {
         <>
             <ScrollView style={{ backgroundColor: 'white', margin: 10, borderRadius: 10 }}>
                 <View style={{ alignItems: 'center', width: '100%', marginTop: '10%' }}>
-                    <Image style={{ height: 120, width: 120 }} source={require('../images/profileImage.png')} />
+                    <Icon name="user-circle-o" size={100} color="black" />
                 </View>
                 <View style={{ alignItems: 'center', width: '100%', marginTop: '5%', borderBottomColor: '#D0D0D0', borderBottomWidth: 1, paddingBottom: '10%' }}>
                     <Text style={{ color: 'black', fontWeight: '700', fontSize: 20 }}>{`${user.ime} ${user.prezime}`}</Text>

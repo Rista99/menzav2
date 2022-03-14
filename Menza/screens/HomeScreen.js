@@ -1,9 +1,11 @@
 import React from 'react'
 import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, Touchable } from 'react-native';
+import { FAB } from 'react-native-paper';
 import Footer from '../components/Footer';
 
 
 function HomeScreen({ navigation }) {
+
 
     const days = [
         {
@@ -75,7 +77,6 @@ function HomeScreen({ navigation }) {
                             <View style={[styles.divider, { backgroundColor: 'white', height: 50, justifyContent: 'center', marginBottom: 10 }]}>
                                 <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: 'black' }}>{`${d.day} - ${d.date}`}</Text>
                             </View>
-
                             {d.meals.length === 0 ?
                                 <View style={[styles.cardStyle, { justifyContent: 'center', marginVertical: 20, paddingVertical: 30 }]}>
                                     <Text style={{ color: 'black', textAlign: 'center' }}>Nema nista naruceno</Text>
@@ -95,9 +96,10 @@ function HomeScreen({ navigation }) {
                         </View>
                     )
                 })}
-
             </ScrollView>
-            <Footer navigation={navigation} />
+            <Footer />
+            <FAB icon='edit' style={styles.fab} onPress={() => navigation.navigate('Order')} />
+
         </>
     );
 }
@@ -144,5 +146,11 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderTopColor: '#D0D0D0',
         width: "100%"
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: '6%',
     },
 });

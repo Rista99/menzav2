@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const BreakfastScreen = () => {
+const LunchScreen = () => {
 
     const days = [
         {
@@ -66,11 +66,11 @@ const BreakfastScreen = () => {
 
     return (
         <ScrollView>
-            <Text style={{ color: 'black' }}>DORUCAK</Text>
+            <Text style={{ color: 'black' }}>RUCAK</Text>
         </ScrollView>
     )
 }
 
-export default BreakfastScreen
+export default LunchScreen
 
 const styles = StyleSheet.create({})
