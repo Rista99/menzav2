@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Image } from 'react-native'
+import { ScrollView, StyleSheet, Image, View } from 'react-native'
 import React, { useState } from 'react'
 import { Divider, List, useTheme } from 'react-native-paper'
 
@@ -74,14 +74,15 @@ const LunchScreen = () => {
             <List.Section>
                 {days.map(d => {
                     return (
-                        <List.Accordion title={`${d.day} - ${d.date}`} key={d.id} style={{ marginBottom: 10, backgroundColor: colors.surface, borderWidth: 1 }} theme={{ dark: 0 }}>
+                        <List.Accordion title={`${d.day} - ${d.date}`} key={d.id} style={{ backgroundColor: colors.surface, }} theme={{ dark: 0 }}>
                             {d.meals.map(m => {
                                 return (
-                                    <>
-                                        <List.Item left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/lunch.png')} />} title={m.name} key={m.id} onPress={() => { }} style={{ backgroundColor: colors.surface, paddingVertical: 20 }} titleStyle={{}} >
+                                    <View key={m.id}>
+                                        <List.Item
+                                            left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/lunch.png')} />}
+                                            title={m.name} onPress={() => { }} style={{ backgroundColor: colors.surface, marginVertical: 5, borderRadius: 20, marginHorizontal: 15 }} titleStyle={{}} >
                                         </List.Item>
-                                        <Divider />
-                                    </>
+                                    </View>
                                 )
                             })}
                         </List.Accordion>

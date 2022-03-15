@@ -73,21 +73,25 @@ function HomeScreen({ navigation }) {
                 contentContainerStyle={styles.scrollViewContentStyle}>
                 {days.map((d) => {
                     return (
-                        <View key={d.id} style={{ width: '100%' }}>
+                        <View key={d.id} style={{ width: '100%', marginTop: 10 }}>
                             <View style={[{ height: 50, justifyContent: 'center', backgroundColor: colors.surface }]}>
                                 <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: colors.text }}>{`${d.day} - ${d.date}`}</Text>
                             </View>
                             {d.meals.length === 0 ?
-                                <View style={[styles.cardStyle, { justifyContent: 'center', paddingVertical: 25, backgroundColor: colors.surface }]}>
-                                    <Text style={{ textAlign: 'center' }}>Nema nista naruceno</Text>
+                                <View style={{ marginTop: 10 }}>
+                                    <View style={[styles.cardStyle, { justifyContent: 'center', paddingVertical: 25, backgroundColor: colors.surface }]}>
+                                        <Text style={{ textAlign: 'center' }}>Nema nista naruceno</Text>
+                                    </View>
                                 </View>
                                 :
                                 d.meals.map(m => {
                                     return (
-                                        <View style={[styles.cardStyle, { backgroundColor: colors.surface, flex: 1 }]} key={m.id}>
-                                            <Image source={m.avatar} style={styles.cardImageStyle} />
-                                            <Text style={styles.cardTextCenter}>{m.name}</Text>
-                                            <IconButton icon='info' onPress={() => alert(m.nutrients)} />
+                                        <View style={{ marginTop: 10 }} key={m.id}>
+                                            <View style={[styles.cardStyle, { backgroundColor: colors.surface, flex: 1 }]}>
+                                                <Image source={m.avatar} style={styles.cardImageStyle} />
+                                                <Text style={styles.cardTextCenter}>{m.name}</Text>
+                                                <IconButton icon='info' onPress={() => alert(m.nutrients)} />
+                                            </View>
                                         </View>
                                     )
                                 })}
@@ -103,20 +107,15 @@ function HomeScreen({ navigation }) {
 export default HomeScreen
 
 const styles = StyleSheet.create({
-    scrollViewStyle: {
-
-    },
     scrollViewContentStyle: {
         justifyContent: 'center',
     },
     cardStyle: {
-        marginBottom: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderRadius: 12,
         flexWrap: 'wrap',
         marginHorizontal: 10,
-        marginTop: 10,
         alignItems: 'center'
     },
     cardImageStyle: {
@@ -125,17 +124,13 @@ const styles = StyleSheet.create({
         width: 70
     },
     cardTextCenter: {
-        marginRight: 40,
-        marginTop: '5%',
         fontSize: 15,
         flexWrap: 'wrap',
         maxWidth: '50%',
-        textAlign: 'center'
+        textAlign: 'justify'
     },
     cardTextRight: {
         fontWeight: '700',
-        marginRight: 10,
-        marginTop: 20,
         fontSize: 20
     },
     divider: {

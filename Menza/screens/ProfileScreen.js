@@ -8,10 +8,12 @@ import {
 } from 'react-native';
 import React from 'react';
 import Footer from '../components/Footer';
-import {useTheme} from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ProfileScreen = () => {
-  const {colors} = useTheme();
+
+  const { colors } = useTheme();
+
   const user = {
     ime: 'Nebojša',
     prezime: 'Zoraja',
@@ -31,11 +33,11 @@ const ProfileScreen = () => {
           margin: 10,
           borderRadius: 10,
         }}>
-        <View style={{alignItems: 'center', width: '100%', marginTop: '10%'}}>
+        <View style={{ alignItems: 'center', width: '100%', marginTop: '10%' }}>
           <Icon
             name="user-circle-o"
             size={100}
-            style={{color: colors.onSurface}}
+            style={{ color: colors.onSurface }}
           />
         </View>
         <View
@@ -55,50 +57,50 @@ const ProfileScreen = () => {
             }}>{`${user.ime} ${user.prezime}`}</Text>
         </View>
         <View style={styles.viewStyle}>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             Broj Indeksa
           </Text>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             {user.brIndeksa}
           </Text>
         </View>
         <View style={styles.viewStyle}>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             Univerzitet:
           </Text>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             {user.univerzitet}
           </Text>
         </View>
         <View style={styles.viewStyle}>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             Fakultet:
           </Text>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             {user.fakultet}
           </Text>
         </View>
         <View style={styles.viewStyle}>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             Godina studija:
           </Text>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             {user.godinaStudija}
           </Text>
         </View>
         <View style={styles.viewStyle}>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             Email:
           </Text>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             {user.email}
           </Text>
         </View>
         <View style={styles.viewStyle}>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             Način finansiranja:
           </Text>
-          <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+          <Text style={[styles.textStyle, { color: colors.onSurface }]}>
             {user.nacinFinansiranja}
           </Text>
         </View>

@@ -4,7 +4,8 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
-  View
+  View,
+  ScrollView
 } from 'react-native';
 import React, { useState } from 'react';
 import { signIn } from '../hooks/signIn';
@@ -16,9 +17,14 @@ const LoginScreen = () => {
   const { colors } = useTheme();
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={{ marginTop: '50%', width: '100%', alignItems: 'center', flex: 1 }}>
-        <Text style={{ fontSize: 20, fontWeight: '600', maxWidth: '70%', textAlign: 'center', marginBottom: '10%', flex: 1, maxHeight: '8%' }}>Menza Srbija - Login</Text>
+    <KeyboardAvoidingView style={styles.container} behavior="height">
+      <View style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
+        <Image source={require('../images/welcome.png')} style={{ width: 120, height: 120 }} />
+      </View>
+      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <Text style={{ fontSize: 25, fontWeight: '600' }}>Menza Srbija - Login</Text>
+      </View>
+      <View style={{ flex: 1, width: '100%' }}>
         <TextInput
           placeholder="Email"
           autoCapitalize='none'
@@ -36,9 +42,11 @@ const LoginScreen = () => {
           style={[styles.input, { backgroundColor: colors.surface }]}
           secureTextEntry
         />
+      </View>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
         <Button icon='login' contentStyle={{ height: 50, flexDirection: 'row-reverse' }} style={{ backgroundColor: '#0782F9', borderRadius: 10, marginTop: '10%', width: '50%' }} mode="outlined" color='white' onPress={() => signIn(email, password)}>Log in</Button>
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView >
   );
 };
 
@@ -47,16 +55,11 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    justifyContent: 'center'
   },
   input: {
-    paddingHorizontal: 15,
-    flex: 1,
-    width: '80%',
     borderRadius: 10,
-    marginVertical: 5,
-    paddingVertical: '5%',
-    maxHeight: 60,
-    minHeight: 60
+    marginTop: 10,
+    marginHorizontal: '15%'
   },
 });
