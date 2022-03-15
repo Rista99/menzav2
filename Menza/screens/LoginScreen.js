@@ -29,14 +29,12 @@ const LoginScreen = () => {
           placeholder="Email"
           autoCapitalize='none'
           value={email}
-          placeholderTextColor="#C7C7CD"
           onChangeText={text => setEmail(text)}
           style={[styles.input, { backgroundColor: colors.surface }]}
         />
         <TextInput
           placeholder="Password"
           autoCapitalize='none'
-          placeholderTextColor="#C7C7CD"
           value={password}
           onChangeText={text => setPassword(text)}
           style={[styles.input, { backgroundColor: colors.surface }]}
@@ -55,11 +53,11 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
   },
   input: {
     borderRadius: 10,
     marginTop: 10,
-    marginHorizontal: '15%'
+    marginHorizontal: '13%',
+    paddingHorizontal: '5%'
   },
 });

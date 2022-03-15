@@ -10,13 +10,57 @@ import ProfileScreen from './screens/ProfileScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import OrderScreen from './screens/OrderScreen';
 
-
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+
+  // const theme = {
+  //   ...PaperDarkTheme,
+  //   roundness: 2,
+  //   colors: {
+  //     ...PaperDarkTheme.colors,
+  //     primary: ,
+  //     accent: ,
+  //     background: ,
+  //     surface: 
+  //     disabled: ,
+  //     error: ,
+  //     notification: ,
+  //     onSurface: ,
+  //     placeholder: ,
+  //     text: ,
+  //   },
+  // };
+
+  // const _theme = {
+  //   ...NavigationDarkTheme,
+  //   roundness: 2,
+  //   colors: {
+  //     ...NavigationDarkTheme.colors,
+  //     primary: ,
+  //     accent: ,
+  //     background: ,
+  //     surface: 
+  //     disabled: ,
+  //     error: ,
+  //     notification: ,
+  //     onSurface: ,
+  //     placeholder: ,
+  //     text: ,
+  //   },
+  // };
+
+  // const CombinedDarkTheme = {
+  //   ...theme,
+  //   ..._theme,
+  //   colors: {
+  //     ...theme.colors,
+  //     ..._theme.colors,
+  //   },
+  // };
 
   const CombinedDarkTheme = {
     ...PaperDarkTheme,
