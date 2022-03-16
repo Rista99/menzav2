@@ -9,13 +9,13 @@ const Footer = () => {
     return (
         <View style={[styles.footer, { backgroundColor: colors.background }]}>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.footerButton, {}]}>Doručak: 10</Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Doručak: 10</Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={styles.footerButton}>Ručak: 20</Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Ručak: 20</Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={styles.footerButton}>Večera: 8</Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Večera: 8</Text>
             </View>
         </View>
     )
