@@ -1,13 +1,5 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import Footer from '../components/Footer';
 import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ProfileScreen = () => {
@@ -105,7 +97,6 @@ const ProfileScreen = () => {
           </Text>
         </View>
       </ScrollView>
-      <Footer />
     </>
   );
 };

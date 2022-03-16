@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, ScrollView, Image, StyleSheet } from 'react-native';
 import { FAB, IconButton, useTheme } from 'react-native-paper';
-import Footer from '../components/Footer';
 
 
 function HomeScreen({ navigation }) {
@@ -69,18 +68,18 @@ function HomeScreen({ navigation }) {
     ]
     return (
         <>
-            <ScrollView style={styles.scrollViewStyle}
+            <ScrollView
                 contentContainerStyle={styles.scrollViewContentStyle}>
                 {days.map((d) => {
                     return (
                         <View key={d.id} style={{ width: '100%', marginTop: 10 }}>
                             <View style={[{ height: 50, justifyContent: 'center', backgroundColor: colors.surface }]}>
-                                <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: colors.text }}>{`${d.day} - ${d.date}`}</Text>
+                                <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: colors.onSurface }}>{`${d.day} - ${d.date}`}</Text>
                             </View>
                             {d.meals.length === 0 ?
                                 <View style={{ marginTop: 10 }}>
                                     <View style={[styles.cardStyle, { justifyContent: 'center', paddingVertical: 25, backgroundColor: colors.surface }]}>
-                                        <Text style={{ textAlign: 'center' }}>Nema nista naruceno</Text>
+                                        <Text style={{ textAlign: 'center', color: colors.onSurface }}>Nema nista naruceno</Text>
                                     </View>
                                 </View>
                                 :
@@ -89,8 +88,8 @@ function HomeScreen({ navigation }) {
                                         <View style={{ marginTop: 10 }} key={m.id}>
                                             <View style={[styles.cardStyle, { backgroundColor: colors.surface, flex: 1 }]}>
                                                 <Image source={m.avatar} style={styles.cardImageStyle} />
-                                                <Text style={styles.cardTextCenter}>{m.name}</Text>
-                                                <IconButton icon='info' onPress={() => alert(m.nutrients)} />
+                                                <Text style={[styles.cardTextCenter, { color: colors.onSurface }]}>{m.name}</Text>
+                                                <IconButton icon='info' color={colors.onSurface} onPress={() => alert(m.nutrients)} />
                                             </View>
                                         </View>
                                     )
@@ -99,7 +98,6 @@ function HomeScreen({ navigation }) {
                     )
                 })}
             </ScrollView>
-            <Footer />
             <FAB icon='edit' style={[[styles.fab], { backgroundColor: colors.primary }]} onPress={() => navigation.navigate('Order')} />
         </>
     );
@@ -133,15 +131,10 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 20
     },
-    divider: {
-        borderTopWidth: 1,
-        borderTopColor: '#D0D0D0',
-        width: "100%"
-    },
     fab: {
         position: 'absolute',
         margin: 16,
         right: 0,
-        bottom: '6%',
+        bottom: '-1%',
     },
 });

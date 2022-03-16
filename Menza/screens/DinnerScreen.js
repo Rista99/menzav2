@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, Image, View } from 'react-native'
 import React, { useState } from 'react'
-import { Divider, List, useTheme } from 'react-native-paper'
+import { List, useTheme } from 'react-native-paper'
+import Footer from '../components/Footer';
 
 const DinnerScreen = () => {
     const { colors } = useTheme();
@@ -70,24 +71,26 @@ const DinnerScreen = () => {
     ]
 
     return (
-        <ScrollView>
-            <List.Section>
-                {days.map(d => {
-                    return (
-                        <List.Accordion title={`${d.day} - ${d.date}`} key={d.id} style={{ backgroundColor: colors.surface }} theme={{ dark: 0 }}>
-                            {d.meals.map(m => {
-                                return (
-                                    <View key={m.id} >
-                                        <List.Item left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/dinner.png')} />} title={m.name} onPress={() => { }} style={{ backgroundColor: colors.surface, marginVertical: 5, borderRadius: 20, marginHorizontal: 15 }} titleStyle={{}} >
-                                        </List.Item>
-                                    </View>
-                                )
-                            })}
-                        </List.Accordion>
-                    );
-                })}
-            </List.Section>
-        </ScrollView>
+        <>
+            <ScrollView>
+                <List.Section>
+                    {days.map(d => {
+                        return (
+                            <List.Accordion title={`${d.day} - ${d.date}`} key={d.id} style={{ backgroundColor: colors.accent }}>
+                                {d.meals.map(m => {
+                                    return (
+                                        <View key={m.id} >
+                                            <List.Item left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/dinner.png')} />} title={m.name} onPress={() => { }} style={{ backgroundColor: colors.surface, marginVertical: 5, borderRadius: 20, marginHorizontal: 15 }} titleStyle={{ color: colors.onSurface }} >
+                                            </List.Item>
+                                        </View>
+                                    )
+                                })}
+                            </List.Accordion>
+                        );
+                    })}
+                </List.Section>
+            </ScrollView>
+        </>
     )
 }
 

@@ -1,17 +1,21 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { useTheme } from 'react-native-paper'
 
 const Footer = () => {
+
+    const { colors } = useTheme();
+
     return (
-        <View style={styles.footer}>
+        <View style={[styles.footer, { backgroundColor: colors.background }]}>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={styles.footerButton}>Dorucak: 10</Text>
+                <Text style={[styles.footerButton, {}]}>Doručak: 10</Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={styles.footerButton}>Rucak: 20</Text>
+                <Text style={styles.footerButton}>Ručak: 20</Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={styles.footerButton}>Vecera: 8</Text>
+                <Text style={styles.footerButton}>Večera: 8</Text>
             </View>
         </View>
     )
@@ -21,12 +25,12 @@ export default Footer
 
 const styles = StyleSheet.create({
     footer: {
-        height: 50,
+        height: 60,
         flexDirection: 'row',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
     },
     footerButton: {
-        fontSize: 15,
+        fontSize: 16,
         fontWeight: '500',
     }
 })

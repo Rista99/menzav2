@@ -5,7 +5,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   View,
-  ScrollView
+  useColorScheme
 } from 'react-native';
 import React, { useState } from 'react';
 import { signIn } from '../hooks/signIn';
@@ -15,6 +15,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { colors } = useTheme();
+  const scheme = useColorScheme();
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="height">
@@ -27,22 +28,24 @@ const LoginScreen = () => {
       <View style={{ flex: 1, width: '100%' }}>
         <TextInput
           placeholder="Email"
+          placeholderTextColor={colors.placeholder}
           autoCapitalize='none'
           value={email}
           onChangeText={text => setEmail(text)}
-          style={[styles.input, { backgroundColor: colors.surface }]}
+          style={[styles.input, { backgroundColor: colors.surface, color: scheme === 'dark' ? colors.onSurface : colors.accent }]}
         />
         <TextInput
           placeholder="Password"
           autoCapitalize='none'
+          placeholderTextColor={colors.placeholder}
           value={password}
           onChangeText={text => setPassword(text)}
-          style={[styles.input, { backgroundColor: colors.surface }]}
+          style={[styles.input, { backgroundColor: colors.surface, color: scheme === 'dark' ? colors.onSurface : colors.accent }]}
           secureTextEntry
         />
       </View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
-        <Button icon='login' contentStyle={{ height: 50, flexDirection: 'row-reverse' }} style={{ backgroundColor: '#0782F9', borderRadius: 10, marginTop: '10%', width: '50%' }} mode="outlined" color='white' onPress={() => signIn(email, password)}>Log in</Button>
+        <Button icon='login' contentStyle={{ height: 50, flexDirection: 'row-reverse' }} style={{ borderRadius: 10, marginTop: '10%', width: '50%', backgroundColor: colors.primary }} mode="outlined" color={colors.accent} onPress={() => signIn(email, password)}>Log in</Button>
       </View>
     </KeyboardAvoidingView >
   );

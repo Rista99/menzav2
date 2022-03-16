@@ -1,22 +1,30 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, useColorScheme } from 'react-native'
 import React from 'react'
-import { NavigationContainer, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import BreakfastScreen from './BreakfastScreen';
 import LunchScreen from './LunchScreen';
 import DinnerScreen from './DinnerScreen';
+import { lightTheme, darkTheme } from '../theme/colorScheme';
+import { useTheme } from 'react-native-paper';
+
 
 const Tab = createMaterialTopTabNavigator();
 
 const OrderScreen = () => {
+    const scheme = useColorScheme();
+    const { colors } = useTheme();
+
     return (
-        <NavigationContainer independent theme={DarkTheme}>
-            <Tab.Navigator>
-                <Tab.Screen name="Breakfast" component={BreakfastScreen} options={{ title: "Doručak" }} />
-                <Tab.Screen name="Lunch" component={LunchScreen} options={{ title: "Ručak" }} />
-                <Tab.Screen name="Dinner" component={DinnerScreen} options={{ title: "Večera" }} />
-            </Tab.Navigator>
-        </NavigationContainer>
+        <>
+            <NavigationContainer independent theme={scheme === 'dark' ? darkTheme : lightTheme}>
+                <Tab.Navigator>
+                    <Tab.Screen name="Breakfast" component={BreakfastScreen} options={{ title: "Doručak", tabBarStyle: { backgroundColor: colors.accent } }} />
+                    <Tab.Screen name="Lunch" component={LunchScreen} options={{ title: "Ručak", tabBarStyle: { backgroundColor: colors.accent } }} />
+                    <Tab.Screen name="Dinner" component={DinnerScreen} options={{ title: "Večera", tabBarStyle: { backgroundColor: colors.accent } }} />
+                </Tab.Navigator>
+            </NavigationContainer>
+        </>
     )
 }
 
