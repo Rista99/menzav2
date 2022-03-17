@@ -1,21 +1,20 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from 'react-native-paper'
 
-const Footer = () => {
-
+const Footer = ({ thisUser }) => {
     const { colors } = useTheme();
 
     return (
         <View style={[styles.footer, { backgroundColor: colors.background }]}>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Doručak: 10</Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Doručak: {thisUser.brojObroka[0]} </Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Ručak: 20</Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Ručak: {thisUser.brojObroka[1]}</Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Večera: 8</Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Večera: {thisUser.brojObroka[2]}</Text>
             </View>
         </View>
     )

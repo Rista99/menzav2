@@ -12,29 +12,37 @@ import OrderScreen from './screens/OrderScreen';
 import { lightTheme, darkTheme } from './theme/colorScheme';
 import { useColorScheme } from 'react-native';
 import Footer from './components/Footer';
+import firestore from '@react-native-firebase/firestore'
+import Loader from './components/Loader';
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [authUser, setAuthUser] = useState();
   const scheme = useColorScheme();
-
-
+  const [user, setUser] = useState();
   const { colors } = useTheme(scheme === 'dark' ? darkTheme : lightTheme);
 
+  getUser = async () => {
+    await firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(doc => (setUser(doc.data())))
+  }
+
   function onAuthStateChanged(user) {
-    setUser(user);
+    setAuthUser(user);
     if (initializing) setInitializing(false);
   }
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    getUser()
     return subscriber;
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null
+  }
 
   return (
     <PaperProvider settings={{
@@ -42,18 +50,20 @@ export default function App() {
     }} theme={scheme === 'dark' ? darkTheme : lightTheme}>
       <NavigationContainer theme={scheme === 'dark' ? darkTheme : lightTheme}>
         <Stack.Navigator >
-          {!user ?
+          {!authUser ?
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} /> :
-            <>
-              <Stack.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({ headerRight: () => <HeaderRightButtons navigation={navigation} />, headerTitleAlign: 'left', title: 'Menza', headerStyle: { backgroundColor: colors.accent } })}
-              />
-              <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profil', headerStyle: { backgroundColor: colors.accent } }} />
-              <Stack.Screen name="Order" component={OrderScreen} options={{ title: 'Narudžbina', headerStyle: { backgroundColor: colors.accent } }} />
-            </>
+            (user ?
+              <>
+                <Stack.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({ headerRight: () => <HeaderRightButtons navigation={navigation} />, headerTitleAlign: 'left', title: 'Menza', headerStyle: { backgroundColor: colors.accent } })}
+                />
+                <Stack.Screen name="Profile" component={ProfileScreen} initialParams={{ userProfile: user }} options={{ title: 'Profil', headerStyle: { backgroundColor: colors.accent } }} />
+                <Stack.Screen name="Order" component={OrderScreen} options={{ title: 'Narudžbina', headerStyle: { backgroundColor: colors.accent } }} />
+              </>
+              : <Stack.Screen name="loading" component={Loader} />)
           }
         </Stack.Navigator>
-        {!user ? null : <Footer />}
       </NavigationContainer>
+      {!user ? null : <Footer thisUser={user} />}
     </PaperProvider>
   );
 }
