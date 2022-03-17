@@ -36,13 +36,14 @@ export default function App() {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    getUser()
+    if (authUser) getUser()
     return subscriber;
-  }, []);
+  }, [authUser]);
 
   if (initializing) {
     return null
   }
+  console.log('.')
 
   return (
     <PaperProvider settings={{
@@ -59,11 +60,11 @@ export default function App() {
                 <Stack.Screen name="Profile" component={ProfileScreen} initialParams={{ userProfile: user }} options={{ title: 'Profil', headerStyle: { backgroundColor: colors.accent } }} />
                 <Stack.Screen name="Order" component={OrderScreen} options={{ title: 'Narudžbina', headerStyle: { backgroundColor: colors.accent } }} />
               </>
-              : <Stack.Screen name="loading" component={Loader} />)
+              : <Stack.Screen name="Loading" component={Loader} options={{ headerShown: false }} />)
           }
         </Stack.Navigator>
       </NavigationContainer>
-      {!user ? null : <Footer thisUser={user} />}
+      {!user || !authUser ? null : <Footer thisUser={user} />}
     </PaperProvider>
   );
 }
