@@ -8,7 +8,7 @@ import {
   useColorScheme
 } from 'react-native';
 import React, { useState } from 'react';
-import { signIn } from '../hooks/signIn';
+import { signIn } from '../functions/signIn';
 import { Button, useTheme } from 'react-native-paper';
 
 const LoginScreen = () => {

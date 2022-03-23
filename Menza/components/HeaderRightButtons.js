@@ -1,6 +1,6 @@
 import { View } from 'react-native'
 import React from 'react'
-import { signOut } from '../hooks/signOut'
+import { signOut } from '../functions/signOut'
 import { IconButton } from 'react-native-paper';
 
 function HeaderRightButtons({ navigation }) {
