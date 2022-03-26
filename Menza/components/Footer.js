@@ -8,13 +8,13 @@ const Footer = ({ thisUser }) => {
     return (
         <View style={[styles.footer, { backgroundColor: colors.background }]}>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Doručak: {thisUser.brojObroka[0]} </Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Doručak: {thisUser.brojDorucaka} </Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Ručak: {thisUser.brojObroka[1]}</Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Ručak: {thisUser.brojRuckova}</Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Večera: {thisUser.brojObroka[2]}</Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Večera: {thisUser.brojVecera}</Text>
             </View>
         </View>
     )
