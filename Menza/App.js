@@ -26,7 +26,12 @@ export default function App() {
   const { colors } = useTheme(scheme === 'dark' ? darkTheme : lightTheme);
 
   getUser = async () => {
-    await firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(doc => (setUser(doc.data())))
+    try {
+
+
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   function onAuthStateChanged(user) {
@@ -36,14 +41,20 @@ export default function App() {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    if (authUser) getUser()
     return subscriber;
-  }, [authUser]);
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true
+    if (authUser) {
+      firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(doc => { if (isMounted) setUser(doc.data()) })
+    }
+    return () => { isMounted = false }
+  }, [authUser])
 
   if (initializing) {
     return null
   }
-  console.log('.')
 
   return (
     <PaperProvider settings={{
@@ -58,7 +69,7 @@ export default function App() {
                 <Stack.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({ headerRight: () => <HeaderRightButtons navigation={navigation} />, headerTitleAlign: 'left', title: 'Menza', headerStyle: { backgroundColor: colors.accent } })}
                 />
                 <Stack.Screen name="Profile" component={ProfileScreen} initialParams={{ userProfile: user }} options={{ title: 'Profil', headerStyle: { backgroundColor: colors.accent } }} />
-                <Stack.Screen name="Order" component={OrderScreen} options={{ title: 'Narudžbina', headerStyle: { backgroundColor: colors.accent } }} />
+                <Stack.Screen name="Order" component={OrderScreen} initialParams={{ currentUser: user }} options={{ title: 'Narudžbina', headerStyle: { backgroundColor: colors.accent } }} />
               </>
               : <Stack.Screen name="Loading" component={Loader} options={{ headerShown: false }} />)
           }

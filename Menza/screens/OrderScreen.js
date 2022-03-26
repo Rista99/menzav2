@@ -20,21 +20,22 @@ function getStartOfToday() {
     return timestamp
 }
 
-const OrderScreen = () => {
+const OrderScreen = ({ route }) => {
     const scheme = useColorScheme();
     const { colors } = useTheme();
-    const [meals, setMeals] = useState([])
+    const [days, setDays] = useState([])
     const [count, setCount] = useState(0)
+    const { currentUser } = route.params
 
-    const fetchMeals = async () => {
+    const fetchDays = async () => {
         try {
             await firestore()
                 .collection('days').where('date', '>=', getStartOfToday()).orderBy('date')
                 .onSnapshot(doc => {
-                    setMeals([])
+                    setDays([])
                     setCount(doc.docs.length)
                     doc.forEach(d => {
-                        setMeals(meals => [...meals, d.data()])
+                        setDays(days => [...days, d.data()])
                     })
                 })
 
@@ -43,19 +44,17 @@ const OrderScreen = () => {
         }
     }
     useEffect(() => {
-        fetchMeals()
+        fetchDays()
     }, [])
-
-
 
     return (
         <>{
-            meals.length === count ?
+            days.length === count ?
                 <NavigationContainer independent theme={scheme === 'dark' ? darkTheme : lightTheme}>
                     <Tab.Navigator>
-                        <Tab.Screen name="Breakfast" component={BreakfastScreen} initialParams={{ _meals: meals }} options={{ title: "Doručak", tabBarStyle: { backgroundColor: colors.accent } }} />
-                        <Tab.Screen name="Lunch" component={LunchScreen} initialParams={{ _meals: meals }} options={{ title: "Ručak", tabBarStyle: { backgroundColor: colors.accent } }} />
-                        <Tab.Screen name="Dinner" component={DinnerScreen} initialParams={{ _meals: meals }} options={{ title: "Večera", tabBarStyle: { backgroundColor: colors.accent } }} />
+                        <Tab.Screen name="Breakfast" component={BreakfastScreen} initialParams={{ _days: days, _user: currentUser }} options={{ title: "Doručak", tabBarStyle: { backgroundColor: colors.accent } }} />
+                        <Tab.Screen name="Lunch" component={LunchScreen} initialParams={{ _days: days, _user: currentUser }} options={{ title: "Ručak", tabBarStyle: { backgroundColor: colors.accent } }} />
+                        <Tab.Screen name="Dinner" component={DinnerScreen} initialParams={{ _days: days, _user: currentUser }} options={{ title: "Večera", tabBarStyle: { backgroundColor: colors.accent } }} />
                     </Tab.Navigator>
                 </NavigationContainer>
                 :

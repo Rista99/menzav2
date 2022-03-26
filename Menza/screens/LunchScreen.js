@@ -10,24 +10,35 @@ const LunchScreen = ({ route }) => {
 
     const [expanded, setExpanded] = useState(false);
 
-    const { _meals } = route.params
-    const [days, setDays] = useState(_meals)
+    const { _days, _user } = route.params
+    const [days, setDays] = useState(_days)
+    const [currentUser, setcurrentUser] = useState(_user)
 
     const handlePress = () => setExpanded(!expanded);
 
     const addToOrder = async (meal, day) => {
         try {
             const exists = (await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).get()).exists
-            if (!exists) {
-                await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).set({
-                    id: firestoreAutoId(),
-                    date: day.date,
-                    meals: firestore.FieldValue.arrayUnion(meal)
-                })
-            } else if (exists) {
-                await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).update({
-                    meals: firestore.FieldValue.arrayUnion(meal)
-                })
+            if (currentUser.brojRuckova !== 0) {
+                if (!exists) {
+                    await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).set({
+                        id: firestoreAutoId(),
+                        date: day.date,
+                        meals: firestore.FieldValue.arrayUnion(meal)
+                    })
+                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(-1) })
+                } else if (exists) {
+
+                    await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).update({
+                        meals: firestore.FieldValue.arrayUnion(meal = {
+                            ...meal,
+                            id: firestoreAutoId()
+                        })
+                    })
+                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(-1) })
+                }
+            } else {
+                alert('Nemate dovoljno bonova za odabrani obrok')
             }
         } catch (error) {
             console.error(error)

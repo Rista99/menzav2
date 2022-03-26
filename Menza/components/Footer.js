@@ -4,7 +4,6 @@ import { useTheme } from 'react-native-paper'
 
 const Footer = ({ thisUser }) => {
     const { colors } = useTheme();
-
     return (
         <View style={[styles.footer, { backgroundColor: colors.background }]}>
             <View style={{ justifyContent: 'center' }}>
