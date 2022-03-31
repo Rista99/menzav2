@@ -1,12 +1,17 @@
 import auth from '@react-native-firebase/auth';
 
-const signIn = (email, password) => {
-    if (email != null && email.length != 0 && email != '' && password != null && password.length != 0 && password != '') {
-        auth()
-            .signInWithEmailAndPassword(email, password)
-            .catch(() => alert('Incorrect email or password!'));
-    } else {
-        alert("Please enter your email and password");
+const signIn = async (email, password) => {
+    let abortController = new AbortController()
+    try {
+        if (email != null && email.length != 0 && email != '' && password != null && password.length != 0 && password != '') {
+            await auth().signInWithEmailAndPassword(email, password)
+        } else {
+            alert("Please enter your email and password");
+        }
+    } catch (error) {
+        alert('Incorrect email or password!')
+    } finally {
+        abortController.abort()
     }
 }
 

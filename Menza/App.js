@@ -25,10 +25,9 @@ export default function App() {
   const [user, setUser] = useState();
   const { colors } = useTheme(scheme === 'dark' ? darkTheme : lightTheme);
 
-  getUser = async () => {
+  const getUser = async () => {
     try {
-
-
+      firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(doc => { setUser(doc.data()) })
     } catch (error) {
       console.error(error)
     }
@@ -45,11 +44,11 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    let isMounted = true
+    let abortController = new AbortController()
     if (authUser) {
-      firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(doc => { if (isMounted) setUser(doc.data()) })
+      getUser()
     }
-    return () => { isMounted = false }
+    return () => { abortController.abort() }
   }, [authUser])
 
   if (initializing) {
@@ -69,7 +68,9 @@ export default function App() {
                 <Stack.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({ headerRight: () => <HeaderRightButtons navigation={navigation} />, headerTitleAlign: 'left', title: 'Menza', headerStyle: { backgroundColor: colors.accent } })}
                 />
                 <Stack.Screen name="Profile" component={ProfileScreen} initialParams={{ userProfile: user }} options={{ title: 'Profil', headerStyle: { backgroundColor: colors.accent } }} />
-                <Stack.Screen name="Order" component={OrderScreen} initialParams={{ currentUser: user }} options={{ title: 'Narudžbina', headerStyle: { backgroundColor: colors.accent } }} />
+                <Stack.Screen name="Order" options={{ title: 'Narudžbina', headerStyle: { backgroundColor: colors.accent } }} >
+                  {() => <OrderScreen user={user} />}
+                </Stack.Screen>
               </>
               : <Stack.Screen name="Loading" component={Loader} options={{ headerShown: false }} />)
           }

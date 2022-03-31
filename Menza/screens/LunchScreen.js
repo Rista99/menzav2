@@ -5,14 +5,10 @@ import { firestoreAutoId } from '../functions/firestoreAutoId';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore'
 
-const LunchScreen = ({ route }) => {
+const LunchScreen = ({ days, currentDayData, currentMealData, setCurrentDay, setCurrentMeal, showDialog }) => {
     const { colors } = useTheme();
 
     const [expanded, setExpanded] = useState(false);
-
-    const { _days, _user } = route.params
-    const [days, setDays] = useState(_days)
-    const [currentUser, setcurrentUser] = useState(_user)
 
     const handlePress = () => setExpanded(!expanded);
 
@@ -59,7 +55,11 @@ const LunchScreen = ({ route }) => {
                                         <View key={m.id}>
                                             <List.Item
                                                 left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/lunch.png')} />}
-                                                title={m.name} onPress={() => { addToOrder(m, d) }} style={{ backgroundColor: colors.surface, marginVertical: 5, borderRadius: 20, marginHorizontal: 15 }} titleStyle={{ color: colors.onSurface }} >
+                                                title={m.name} onPress={() => {
+                                                    setCurrentMeal(m)
+                                                    setCurrentDay(d)
+                                                    showDialog()
+                                                }} style={{ backgroundColor: colors.surface, marginVertical: 5, borderRadius: 20, marginHorizontal: 15 }} titleStyle={{ color: colors.onSurface }} >
                                             </List.Item>
                                         </View>
                                     )

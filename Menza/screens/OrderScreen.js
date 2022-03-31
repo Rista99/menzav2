@@ -1,4 +1,4 @@
-import { StyleSheet, useColorScheme } from 'react-native'
+import { StyleSheet, useColorScheme, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -6,10 +6,12 @@ import BreakfastScreen from './BreakfastScreen';
 import LunchScreen from './LunchScreen';
 import DinnerScreen from './DinnerScreen';
 import { lightTheme, darkTheme } from '../theme/colorScheme';
-import { useTheme } from 'react-native-paper';
+import { Button, Dialog, Divider, Paragraph, Portal, useTheme } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore'
 import Loader from '../components/Loader';
+import { addToOrder } from '../functions/database/addToOrder';
+import OrderDialog from '../components/OrderDialog';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,12 +22,21 @@ function getStartOfToday() {
     return timestamp
 }
 
-const OrderScreen = ({ route }) => {
+const OrderScreen = ({ user }) => {
     const scheme = useColorScheme();
     const { colors } = useTheme();
     const [days, setDays] = useState([])
     const [count, setCount] = useState(0)
-    const { currentUser } = route.params
+    const [currentDayData, setCurrentDayData] = useState(null)
+    const [currentMealData, setCurrentMealData] = useState(null)
+    const [visible, setVisible] = useState(false);
+
+    const showDialog = () => setVisible(true);
+    const hideDialog = () => setVisible(false);
+
+    const setCurrentDay = (data) => setCurrentDayData(data);
+    const setCurrentMeal = (data) => setCurrentMealData(data);
+    const clearData = () => { setCurrentMeal(null); setCurrentDay(null) };
 
     const fetchDays = async () => {
         try {
@@ -44,7 +55,11 @@ const OrderScreen = ({ route }) => {
         }
     }
     useEffect(() => {
+        let abortController = new AbortController()
         fetchDays()
+        return () => {
+            abortController.abort();
+        }
     }, [])
 
     return (
@@ -52,14 +67,24 @@ const OrderScreen = ({ route }) => {
             days.length === count ?
                 <NavigationContainer independent theme={scheme === 'dark' ? darkTheme : lightTheme}>
                     <Tab.Navigator>
-                        <Tab.Screen name="Breakfast" component={BreakfastScreen} initialParams={{ _days: days, _user: currentUser }} options={{ title: "Doručak", tabBarStyle: { backgroundColor: colors.accent } }} />
-                        <Tab.Screen name="Lunch" component={LunchScreen} initialParams={{ _days: days, _user: currentUser }} options={{ title: "Ručak", tabBarStyle: { backgroundColor: colors.accent } }} />
-                        <Tab.Screen name="Dinner" component={DinnerScreen} initialParams={{ _days: days, _user: currentUser }} options={{ title: "Večera", tabBarStyle: { backgroundColor: colors.accent } }} />
+                        <Tab.Screen name="Breakfast" options={{ title: "Doručak", tabBarStyle: { backgroundColor: colors.accent } }} >
+                            {() => <BreakfastScreen days={days} currentDayData={currentDayData} currentMealData={currentMealData} setCurrentDay={setCurrentDay} setCurrentMeal={setCurrentMeal} showDialog={showDialog} />}
+                        </Tab.Screen>
+                        <Tab.Screen name="Lunch" options={{ title: "Ručak", tabBarStyle: { backgroundColor: colors.accent } }} >
+                            {() => <LunchScreen days={days} currentDayData={currentDayData} currentMealData={currentMealData} setCurrentDay={setCurrentDay} setCurrentMeal={setCurrentMeal} showDialog={showDialog} />}
+                        </Tab.Screen>
+                        <Tab.Screen name="Dinner" options={{ title: "Večera", tabBarStyle: { backgroundColor: colors.accent } }} >
+                            {() => <DinnerScreen days={days} currentDayData={currentDayData} currentMealData={currentMealData} setCurrentDay={setCurrentDay} setCurrentMeal={setCurrentMeal} showDialog={showDialog} />}
+                        </Tab.Screen>
                     </Tab.Navigator>
                 </NavigationContainer>
                 :
                 <Loader />
         }
+            {
+                currentMealData ?
+                    <OrderDialog clearData={clearData} currentDayData={currentDayData} currentMealData={currentMealData} hideDialog={hideDialog} user={user} visible={visible} /> : null
+            }
         </>
     )
 }

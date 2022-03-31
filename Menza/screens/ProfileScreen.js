@@ -9,9 +9,6 @@ const ProfileScreen = ({ route }) => {
   const { colors } = useTheme();
   const { userProfile } = route.params;
 
-  useEffect(() => {
-  }, [userProfile])
-
   return (
     <>
       {userProfile ?

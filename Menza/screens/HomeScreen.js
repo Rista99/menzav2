@@ -34,18 +34,17 @@ function HomeScreen({ navigation }) {
     };
 
     useEffect(() => {
+        let abortController = new AbortController()
         fetchData();
+        return () => { abortController.abort() }
     }, []);
-
-    if (orderData) {
-    }
 
     const addToMap = async () => {
         try {
-
-            const date = new Date('3/28/2022')
+            const date = new Date('4/1/2022')
 
             const day = {
+                id: firestoreAutoId(),
                 date: date,
                 meals: [
                     {
@@ -123,7 +122,7 @@ function HomeScreen({ navigation }) {
                 ]
             }
 
-            // await firestore().collection('days').doc(firestore.Timestamp.fromDate(date).toDate().toDateString().toString()).set(day)
+            await firestore().collection('days').doc(firestore.Timestamp.fromDate(date).toDate().toDateString().toString()).set(day)
 
         } catch (error) {
             console.error(error)
@@ -132,13 +131,16 @@ function HomeScreen({ navigation }) {
 
     const removeOrder = async (meal, day) => {
         try {
-            if (meal.type === 1) {
-                console.log('1')
-                await firestore().collection('users').doc(auth().currentUser.uid).update({ brojDorucaka: firestore.FieldValue.increment(1) })
-            } else if (meal.type === 2) {
-                await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(1) })
-            } else if (meal.type === 3) {
-                await firestore().collection('users').doc(auth().currentUser.uid).update({ brojVecera: firestore.FieldValue.increment(1) })
+            switch (meal.type) {
+                case 1:
+                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojDorucaka: firestore.FieldValue.increment(1) })
+                    break
+                case 2:
+                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(1) })
+                    break
+                case 3:
+                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojVecera: firestore.FieldValue.increment(1) })
+                    break
             }
             await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).update({
                 meals: firestore.FieldValue.arrayRemove(meal)
@@ -211,7 +213,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         flexWrap: 'wrap',
         maxWidth: '50%',
-        textAlign: 'justify'
+        textAlign: 'center'
     },
     cardTextRight: {
         fontWeight: '700',
