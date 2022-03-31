@@ -1,47 +1,14 @@
 import { ScrollView, StyleSheet, Image, View } from 'react-native'
 import React, { useState } from 'react'
 import { List, useTheme } from 'react-native-paper'
-import Footer from '../components/Footer';
-import { firestoreAutoId } from '../functions/firestoreAutoId';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore'
 
-const DinnerScreen = ({ days, currentDayData, currentMealData, setCurrentDay, setCurrentMeal, showDialog }) => {
+
+const DinnerScreen = ({ days, setCurrentDay, setCurrentMeal, showDialog }) => {
     const { colors } = useTheme();
 
     const [expanded, setExpanded] = useState(false);
 
     const handlePress = () => setExpanded(!expanded);
-
-    const addToOrder = async (meal, day) => {
-        try {
-            const exists = (await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).get()).exists
-            if (currentUser.brojVecera !== 0) {
-                if (!exists) {
-                    await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).set({
-                        id: firestoreAutoId(),
-                        date: day.date,
-                        meals: firestore.FieldValue.arrayUnion(meal)
-                    })
-                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojVecera: firestore.FieldValue.increment(-1) })
-                } else if (exists) {
-
-                    await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).update({
-                        meals: firestore.FieldValue.arrayUnion(meal = {
-                            ...meal,
-                            id: firestoreAutoId()
-                        })
-                    })
-                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojVecera: firestore.FieldValue.increment(-1) })
-                }
-            } else {
-                alert('Nemate dovoljno bonova za odabrani obrok')
-            }
-        } catch (error) {
-            console.error(error)
-        }
-
-    }
 
     return (
         <>
@@ -53,7 +20,7 @@ const DinnerScreen = ({ days, currentDayData, currentMealData, setCurrentDay, se
                                 {d.meals.filter(m => m.type === 3).map(m => {
                                     return (
                                         <View key={m.id} >
-                                            <List.Item left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/dinner.png')} />} title={m.name} onPress={() => {
+                                            <List.Item titleNumberOfLines={3} left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/dinner.png')} />} title={m.name} onPress={() => {
                                                 setCurrentMeal(m)
                                                 setCurrentDay(d)
                                                 showDialog()

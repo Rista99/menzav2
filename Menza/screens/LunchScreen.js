@@ -1,47 +1,14 @@
 import { ScrollView, StyleSheet, Image, View } from 'react-native'
 import React, { useState } from 'react'
 import { List, useTheme } from 'react-native-paper'
-import { firestoreAutoId } from '../functions/firestoreAutoId';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore'
 
-const LunchScreen = ({ days, currentDayData, currentMealData, setCurrentDay, setCurrentMeal, showDialog }) => {
+
+const LunchScreen = ({ days, setCurrentDay, setCurrentMeal, showDialog }) => {
     const { colors } = useTheme();
 
     const [expanded, setExpanded] = useState(false);
 
     const handlePress = () => setExpanded(!expanded);
-
-    const addToOrder = async (meal, day) => {
-        try {
-            const exists = (await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).get()).exists
-            if (currentUser.brojRuckova !== 0) {
-                if (!exists) {
-                    await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).set({
-                        id: firestoreAutoId(),
-                        date: day.date,
-                        meals: firestore.FieldValue.arrayUnion(meal)
-                    })
-                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(-1) })
-                } else if (exists) {
-
-                    await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).update({
-                        meals: firestore.FieldValue.arrayUnion(meal = {
-                            ...meal,
-                            id: firestoreAutoId()
-                        })
-                    })
-                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(-1) })
-                }
-            } else {
-                alert('Nemate dovoljno bonova za odabrani obrok')
-            }
-        } catch (error) {
-            console.error(error)
-        }
-
-    }
-
 
     return (
         <>
@@ -52,14 +19,14 @@ const LunchScreen = ({ days, currentDayData, currentMealData, setCurrentDay, set
                             <List.Accordion title={d.date.toDate().toDateString()} key={d.id} style={{ backgroundColor: colors.accent, paddingVertical: 10 }} theme={{ dark: 0 }}>
                                 {d.meals.filter(m => m.type === 2).map(m => {
                                     return (
-                                        <View key={m.id}>
-                                            <List.Item
-                                                left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/lunch.png')} />}
+                                        <View key={m.id} style={{}}>
+                                            <List.Item titleNumberOfLines={3}
+                                                left={() => <Image style={{ width: 50, height: 50, }} source={require('../images/lunch.png')} />}
                                                 title={m.name} onPress={() => {
                                                     setCurrentMeal(m)
                                                     setCurrentDay(d)
                                                     showDialog()
-                                                }} style={{ backgroundColor: colors.surface, marginVertical: 5, borderRadius: 20, marginHorizontal: 15 }} titleStyle={{ color: colors.onSurface }} >
+                                                }} style={{ backgroundColor: colors.surface, marginVertical: 5, borderRadius: 20, marginHorizontal: 15, }} titleStyle={{ color: colors.onSurface, textAlign: 'center' }} >
                                             </List.Item>
                                         </View>
                                     )

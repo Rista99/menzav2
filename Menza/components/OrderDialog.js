@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { View, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal, Divider, useTheme } from 'react-native-paper';
 import { addToOrder } from '../functions/database/addToOrder';
 
@@ -7,13 +7,16 @@ const OrderDialog = ({ visible, hideDialog, clearData, currentMealData, currentD
 
     const { colors } = useTheme();
 
+    useEffect(() => {
+        return () => clearData()
+    }, [])
+
     return (
         <View >
             <Portal >
                 <Dialog style={{ borderRadius: 15, height: '60%' }} visible={visible}
                     onDismiss={() => {
                         hideDialog();
-                        clearData()
                     }}>
                     <View style={{ justifyContent: 'center' }}>
                         <Dialog.Title style={{ textAlign: 'center' }}>{currentMealData.name}</Dialog.Title>
@@ -26,10 +29,10 @@ const OrderDialog = ({ visible, hideDialog, clearData, currentMealData, currentD
                     </View>
                     <View>
                         <Dialog.Actions style={{ alignSelf: 'flex-end', }}>
-                            <Button onPress={() => { hideDialog(); clearData(); }} >
+                            <Button onPress={() => { hideDialog(); }} >
                                 Otkaži
                             </Button>
-                            <Button onPress={() => { addToOrder(user, currentMealData, currentDayData); hideDialog(); clearData(); }} >
+                            <Button onPress={() => { addToOrder(user, currentMealData, currentDayData); hideDialog(); }} >
                                 Dodaj narudžbu
                             </Button>
                         </Dialog.Actions>

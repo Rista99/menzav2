@@ -1,9 +1,9 @@
-import { ScrollView, StyleSheet, Image, View, Modal } from 'react-native'
+import { ScrollView, StyleSheet, Image, View } from 'react-native'
 import React, { useState } from 'react'
 import { List, useTheme } from 'react-native-paper'
 
 
-const BreakfastScreen = ({ days, currentDayData, currentMealData, setCurrentDay, setCurrentMeal, showDialog }) => {
+const BreakfastScreen = ({ days, setCurrentDay, setCurrentMeal, showDialog }) => {
     const { colors } = useTheme();
     const [expanded, setExpanded] = useState(false);
     const handlePress = () => setExpanded(!expanded);
@@ -18,7 +18,7 @@ const BreakfastScreen = ({ days, currentDayData, currentMealData, setCurrentDay,
                                 {d.meals.filter(m => m.type === 1).map(m => {
                                     return (
                                         <View key={m.id}>
-                                            <List.Item left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/breakfast.png')} />} title={m.name} onPress={() => {
+                                            <List.Item titleNumberOfLines={3} left={() => <Image style={{ width: 50, height: 50 }} source={require('../images/breakfast.png')} />} title={m.name} onPress={() => {
                                                 setCurrentMeal(m)
                                                 setCurrentDay(d)
                                                 showDialog()
