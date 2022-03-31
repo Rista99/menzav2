@@ -25,8 +25,13 @@ const OrderDialog = ({ visible, hideDialog, clearData, currentMealData, currentD
                         </Dialog.Content>
                     </View>
                     <View>
-                        <Dialog.Actions style={{ alignSelf: 'center', }}>
-                            <Button onPress={() => { addToOrder(user, currentMealData, currentDayData); hideDialog(); clearData() }} ><Text style={{ color: colors.primary, fontSize: 16 }}>DODAJ NARUDŽBU</Text></Button>
+                        <Dialog.Actions style={{ alignSelf: 'flex-end', }}>
+                            <Button onPress={() => { hideDialog(); clearData(); }} >
+                                Otkaži
+                            </Button>
+                            <Button onPress={() => { addToOrder(user, currentMealData, currentDayData); hideDialog(); clearData(); }} >
+                                Dodaj narudžbu
+                            </Button>
                         </Dialog.Actions>
                     </View>
                 </Dialog>
