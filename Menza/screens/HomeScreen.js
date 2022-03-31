@@ -24,8 +24,8 @@ function HomeScreen({ navigation }) {
                 .collection('orders')
                 .where('date', '>=', getStartOfToday()).onSnapshot(doc => {
                     setOrderData([])
-                    doc.forEach(d => {
-                        setOrderData(orderData => [...orderData, d.data()]);
+                    doc.forEach(async d => {
+                        await setOrderData(orderData => [...orderData, d.data()]);
                     })
                 });
         } catch (error) {

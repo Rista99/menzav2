@@ -27,7 +27,7 @@ export default function App() {
 
   const getUser = async () => {
     try {
-      firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(doc => { setUser(doc.data()) })
+      await firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(async (doc) => { await setUser(doc.data()) })
     } catch (error) {
       console.error(error)
     }

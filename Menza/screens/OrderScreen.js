@@ -42,11 +42,11 @@ const OrderScreen = ({ user }) => {
         try {
             await firestore()
                 .collection('days').where('date', '>=', getStartOfToday()).orderBy('date')
-                .onSnapshot(doc => {
+                .onSnapshot((doc) => {
                     setDays([])
                     setCount(doc.docs.length)
-                    doc.forEach(d => {
-                        setDays(days => [...days, d.data()])
+                    doc.forEach(async d => {
+                        await setDays(days => [...days, d.data()])
                     })
                 })
 
