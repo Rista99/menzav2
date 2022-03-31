@@ -7,7 +7,7 @@ const Footer = ({ thisUser }) => {
     return (
         <View style={[styles.footer, { backgroundColor: colors.background }]}>
             <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Doručak: {thisUser.brojDorucaka} </Text>
+                <Text style={[styles.footerButton, { color: colors.placeholder }]}>Doručak: {thisUser.brojDoruckova} </Text>
             </View>
             <View style={{ justifyContent: 'center' }}>
                 <Text style={[styles.footerButton, { color: colors.placeholder }]}>Ručak: {thisUser.brojRuckova}</Text>

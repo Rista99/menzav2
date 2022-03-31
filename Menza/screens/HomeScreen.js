@@ -9,6 +9,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { firestoreAutoId } from '../functions/firestoreAutoId';
 import QRDialog from '../components/QRDialog';
+import { removeOrder } from '../functions/database/removeOrder';
 
 function getStartOfToday() {
   const now = new Date();
@@ -30,23 +31,6 @@ function HomeScreen({ navigation }) {
   const [visible, setVisible] = useState(false);
   const [qrMeal, setQrMeal] = useState(null);
   const [qrDay, setQrDay] = useState(null);
-
-  const fetchData = async () => {
-    try {
-      const unsubscribe = await firestore()
-        .collection('users')
-        .doc(auth().currentUser.uid)
-        .collection('orders')
-        .where('date', '>=', getStartOfToday()).onSnapshot(async doc => {
-          await setOrderData([])
-          doc.forEach(async d => {
-            await setOrderData(orderData => [...orderData, d.data()]);
-          })
-        });
-    } catch (error) {
-      console.error(error)
-    }
-  };
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -165,30 +149,6 @@ function HomeScreen({ navigation }) {
       console.error(error);
     }
   };
-
-  const removeOrder = async (meal, day) => {
-    let abortController = new AbortController()
-    try {
-      switch (meal.type) {
-        case 1:
-          await firestore().collection('users').doc(auth().currentUser.uid).update({ brojDorucaka: firestore.FieldValue.increment(1) })
-          break
-        case 2:
-          await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(1) })
-          break
-        case 3:
-          await firestore().collection('users').doc(auth().currentUser.uid).update({ brojVecera: firestore.FieldValue.increment(1) })
-          break
-      }
-      await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).update({
-        meals: firestore.FieldValue.arrayRemove(meal)
-      })
-    } catch (error) {
-      console.error(error)
-    } finally {
-
-    }
-  }
 
 
   return (
