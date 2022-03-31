@@ -1,229 +1,226 @@
-<<<<<<< Updated upstream
-import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { signOut } from '../hooks/signOut';
+import React, { useEffect, useState } from 'react'
+import { View, Text, ScrollView, Image, StyleSheet } from 'react-native';
+import { Button, FAB, IconButton, useTheme } from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore'
+import { firestoreAutoId } from '../functions/firestoreAutoId';
 
-function HomeScreen() {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
-            <TouchableOpacity
-                onPress={signOut}
-                style={[styles.button, styles.buttonOutlineRed]}>
-                <Text style={styles.buttonOutlineTextRed}>Sign Out</Text>
-            </TouchableOpacity>
-        </View>
-    );
-=======
-import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Touchable,
-} from 'react-native';
-import Footer from '../components/Footer';
-
-function HomeScreen({navigation}) {
-  const days = [
-    {
-      id: 1,
-      day: 'Ponedeljak',
-      date: '10.3.2022.',
-      meals: [
-        {
-          id: 1,
-          name: 'Jaje na oko sa slaninom',
-          avatar: require('../images/breakfast.png'),
-          nutrients:
-            'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-        },
-        {
-          id: 2,
-          name: 'Bečka šnicla sa krompir pireom',
-          avatar: require('../images/lunch.png'),
-          nutrients:
-            'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-        },
-        {
-          id: 3,
-          name: 'Topljeni kačkavalj sa varivom od šargarepe',
-          avatar: require('../images/dinner.png'),
-          nutrients:
-            'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-        },
-      ],
-    },
-    {
-      id: 2,
-      day: 'Utorak',
-      date: '11.3.2022.',
-      meals: [],
-    },
-    {
-      id: 3,
-      day: 'Sreda',
-      date: '12.3.2022.',
-      meals: [
-        {
-          id: 1,
-          name: 'Jaje na oko sa slaninom',
-          avatar: require('../images/breakfast.png'),
-          nutrients:
-            'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-        },
-        {
-          id: 2,
-          name: 'Bečka šnicla sa krompir pireom',
-          avatar: require('../images/lunch.png'),
-          nutrients:
-            'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-        },
-      ],
-    },
-    {
-      id: 4,
-      day: 'Cetvrtak',
-      date: '13.3.2022.',
-      meals: [],
-    },
-  ];
-  return (
-    <>
-      <ScrollView
-        style={styles.scrollViewStyle}
-        contentContainerStyle={styles.scrollViewContentStyle}>
-        {days.map(d => {
-          return (
-            <View key={d.id} style={{marginBottom: 10, width: '100%'}}>
-              <View
-                style={[
-                  styles.divider,
-                  {
-                    backgroundColor: 'white',
-                    height: 50,
-                    justifyContent: 'center',
-                    marginBottom: 10,
-                  },
-                ]}>
-                <Text
-                  style={{
-                    marginLeft: 20,
-                    fontSize: 20,
-                    fontWeight: '600',
-                    color: 'black',
-                  }}>{`${d.day} - ${d.date}`}</Text>
-              </View>
-              {d.meals.length === 0 ? (
-                <View
-                  style={[
-                    styles.cardStyle,
-                    {
-                      justifyContent: 'center',
-                      marginVertical: 20,
-                      paddingVertical: 30,
-                    },
-                  ]}>
-                  <Text style={{color: 'black', textAlign: 'center'}}>
-                    Nema nista naruceno
-                  </Text>
-                </View>
-              ) : (
-                d.meals.map(m => {
-                  return (
-                    <View style={styles.cardStyle} key={m.id}>
-                      <Image source={m.avatar} style={styles.cardImageStyle} />
-                      <Text style={styles.cardTextCenter}>{m.name}</Text>
-                      <TouchableOpacity onPress={() => alert(m.nutrients)}>
-                        <Image
-                          style={{
-                            width: 25,
-                            height: 25,
-                            marginRight: 15,
-                            marginVertical: '60%',
-                          }}
-                          source={require('../images/info.png')}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  );
-                })
-              )}
-            </View>
-          );
-        })}
-      </ScrollView>
-      <Footer />
-    </>
-  );
->>>>>>> Stashed changes
+function getStartOfToday() {
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
+    const timestamp = firestore.Timestamp.fromDate(now)
+    return timestamp
 }
-export default HomeScreen;
+
+function HomeScreen({ navigation }) {
+    const { colors } = useTheme();
+    const [orderData, setOrderData] = useState([])
+
+    const fetchData = async () => {
+        try {
+            await firestore()
+                .collection('users')
+                .doc(auth().currentUser.uid)
+                .collection('orders')
+                .where('date', '>=', getStartOfToday()).onSnapshot(doc => {
+                    setOrderData([])
+                    doc.forEach(d => {
+                        setOrderData(orderData => [...orderData, d.data()]);
+                    })
+                });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    if (orderData) {
+    }
+
+    const addToMap = async () => {
+        try {
+
+            const date = new Date('3/28/2022')
+
+            const day = {
+                date: date,
+                meals: [
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Jaje na oko sa slaninom',
+                        type: 1,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Lisnato testo sa višnjama',
+                        type: 1,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Lisnato testo sa sirom',
+                        type: 1,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Eurokrem',
+                        type: 1,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Bečka šnicla sa varivom od šargarepe i krompirom',
+                        type: 2,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Pileći batak sa pirinčem i graškom',
+                        type: 2,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Pasulj',
+                        type: 2,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Riblja pljeskavica sa krompir pireom',
+                        type: 2,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Bečka šnicla sa krompir pireom',
+                        type: 3,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Pizza makarone',
+                        type: 3,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Pizza',
+                        type: 3,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                    {
+                        id: firestoreAutoId(),
+                        name: 'Riblji štapići sa krompir pireom',
+                        type: 3,
+                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
+                    },
+                ]
+            }
+
+            // await firestore().collection('days').doc(firestore.Timestamp.fromDate(date).toDate().toDateString().toString()).set(day)
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const removeOrder = async (meal, day) => {
+        try {
+            if (meal.type === 1) {
+                console.log('1')
+                await firestore().collection('users').doc(auth().currentUser.uid).update({ brojDorucaka: firestore.FieldValue.increment(1) })
+            } else if (meal.type === 2) {
+                await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(1) })
+            } else if (meal.type === 3) {
+                await firestore().collection('users').doc(auth().currentUser.uid).update({ brojVecera: firestore.FieldValue.increment(1) })
+            }
+            await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).update({
+                meals: firestore.FieldValue.arrayRemove(meal)
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+
+    return (
+        <>
+            <ScrollView
+                contentContainerStyle={styles.scrollViewContentStyle}>
+                <View style={{ marginBottom: '20%' }}>
+                    {orderData.map((od) => {
+                        return (
+                            <View key={od.id} style={{ width: '100%', marginTop: 10 }}>
+                                <View style={[{ height: 50, justifyContent: 'center', backgroundColor: colors.surface, }]}>
+                                    <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: '600', color: colors.onSurface }}>{od.date.toDate().toDateString()}</Text>
+                                </View>
+                                {od.meals.length === 0 ?
+                                    <View style={{ marginTop: 10 }}>
+                                        <View style={[styles.cardStyle, { justifyContent: 'center', paddingVertical: 25, backgroundColor: colors.surface }]}>
+                                            <Text style={{ textAlign: 'center', color: colors.onSurface }}>Nema ništa naručeno</Text>
+                                        </View>
+                                    </View>
+                                    :
+                                    od.meals.map(m => {
+                                        return (
+                                            <View style={{ marginTop: 10 }} key={m.id}>
+                                                <View style={[styles.cardStyle, { backgroundColor: colors.surface, flex: 1 }]}>
+                                                    <Image source={m.type === 1 ? require('../images/breakfast.png') : m.type === 2 ? require('../images/lunch.png') : m.type === 3 ? require('../images/dinner.png') : null} style={styles.cardImageStyle} />
+                                                    <Text style={[styles.cardTextCenter, { color: colors.onSurface }]}>{m.name}</Text>
+                                                    <IconButton icon='delete' color={colors.error} onPress={() => removeOrder(m, od)} />
+                                                </View>
+                                            </View>
+                                        )
+                                    })}
+                            </View>
+                        )
+                    })}
+                </View>
+            </ScrollView>
+            {/* <Button onPress={addToMap}>Add hardcodded meal</Button> */}
+            <FAB icon='edit' style={[[styles.fab], { backgroundColor: colors.primary }]} onPress={() => navigation.navigate('Order')} />
+        </>
+    );
+}
+export default HomeScreen
 
 const styles = StyleSheet.create({
-<<<<<<< Updated upstream
-    button: {
-        backgroundColor: '#0782F9',
-        width: '100%',
-        padding: 15,
-        borderRadius: 10,
-        alignItems: 'center',
+    scrollViewContentStyle: {
+        justifyContent: 'center',
     },
-    buttonOutlineRed: {
-        backgroundColor: 'red',
-        color: 'red',
-        marginTop: 5,
-        borderColor: 'red',
-        borderWidth: 2,
+    cardStyle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderRadius: 12,
+        flexWrap: 'wrap',
+        marginHorizontal: 10,
+        alignItems: 'center'
     },
-    buttonOutlineTextRed: {
-        color: 'white',
+    cardImageStyle: {
+        marginRight: 10,
+        height: 70,
+        width: 70
+    },
+    cardTextCenter: {
+        fontSize: 15,
+        flexWrap: 'wrap',
+        maxWidth: '50%',
+        textAlign: 'justify'
+    },
+    cardTextRight: {
         fontWeight: '700',
-        fontSize: 16,
+        fontSize: 20
     },
-})
-=======
-  scrollViewStyle: {},
-  scrollViewContentStyle: {
-    justifyContent: 'center',
-  },
-  cardStyle: {
-    backgroundColor: 'white',
-    marginBottom: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderRadius: 10,
-    flexWrap: 'wrap',
-    marginHorizontal: 10,
-  },
-  cardImageStyle: {
-    marginRight: 10,
-    height: 70,
-    width: 70,
-  },
-  cardTextCenter: {
-    marginRight: 40,
-    marginTop: '5%',
-    color: 'black',
-    fontSize: 15,
-    flexWrap: 'wrap',
-    maxWidth: '50%',
-    textAlign: 'center',
-  },
-  cardTextRight: {
-    fontWeight: '700',
-    marginRight: 10,
-    color: 'black',
-    marginTop: 20,
-    fontSize: 20,
-  },
-  divider: {
-    borderTopWidth: 1,
-    borderTopColor: '#D0D0D0',
-    width: '100%',
-  },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: '-1%',
+    },
 });
->>>>>>> Stashed changes

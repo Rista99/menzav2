@@ -1,33 +1,41 @@
-<<<<<<< Updated upstream
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, } from '@react-navigation/native';
+import { Provider as PaperProvider, useTheme } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import auth from '@react-native-firebase/auth';
-=======
-import React, {useState, useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {Provider as PaperProvider} from 'react-native-paper';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import auth from '@react-native-firebase/auth';
-import {HeaderRightButtons} from './components/HeaderRightButtons';
+import { HeaderRightButtons } from './components/HeaderRightButtons';
 import ProfileScreen from './screens/ProfileScreen';
-import BreakfastScreen from './screens/BreakfastScreen';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import OrderScreen from './screens/OrderScreen';
->>>>>>> Stashed changes
+import { lightTheme, darkTheme } from './theme/colorScheme';
+import { useColorScheme } from 'react-native';
+import Footer from './components/Footer';
+import firestore from '@react-native-firebase/firestore'
+import Loader from './components/Loader';
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
   const [initializing, setInitializing] = useState(true);
+  const [authUser, setAuthUser] = useState();
+  const scheme = useColorScheme();
   const [user, setUser] = useState();
+  const { colors } = useTheme(scheme === 'dark' ? darkTheme : lightTheme);
+
+  getUser = async () => {
+    try {
+
+
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   function onAuthStateChanged(user) {
-    setUser(user);
+    setAuthUser(user);
     if (initializing) setInitializing(false);
   }
 
@@ -36,65 +44,38 @@ export default function App() {
     return subscriber;
   }, []);
 
-  if (initializing) return null;
+  useEffect(() => {
+    let isMounted = true
+    if (authUser) {
+      firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(doc => { if (isMounted) setUser(doc.data()) })
+    }
+    return () => { isMounted = false }
+  }, [authUser])
+
+  if (initializing) {
+    return null
+  }
 
   return (
-<<<<<<< Updated upstream
-    <NavigationContainer>
-      <Stack.Navigator>
-        {!user ?
-          <Stack.Screen name="Login" component={LoginScreen} /> :
-          <Stack.Screen name="Home" component={HomeScreen} />
-        }
-      </Stack.Navigator>
-    </NavigationContainer>
-=======
-    <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {!user ? (
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{headerShown: false}}
-            />
-          ) : (
-            <>
-              <Stack.Screen
-                name="Home"
-                component={HomeScreen}
-                options={({navigation}) => ({
-                  headerRight: () => (
-                    <HeaderRightButtons navigation={navigation} />
-                  ),
-                  headerTitleAlign: 'left',
-                  title: 'Menza',
-                })}
-              />
-              <Stack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{title: 'Profil'}}
-              />
-              <Stack.Screen
-                name="Order"
-                component={OrderScreen}
-                options={{title: 'Naruči'}}
-              />
-            </>
-          )}
+    <PaperProvider settings={{
+      icon: props => <AntDesign {...props} />
+    }} theme={scheme === 'dark' ? darkTheme : lightTheme}>
+      <NavigationContainer theme={scheme === 'dark' ? darkTheme : lightTheme}>
+        <Stack.Navigator >
+          {!authUser ?
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} /> :
+            (user ?
+              <>
+                <Stack.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({ headerRight: () => <HeaderRightButtons navigation={navigation} />, headerTitleAlign: 'left', title: 'Menza', headerStyle: { backgroundColor: colors.accent } })}
+                />
+                <Stack.Screen name="Profile" component={ProfileScreen} initialParams={{ userProfile: user }} options={{ title: 'Profil', headerStyle: { backgroundColor: colors.accent } }} />
+                <Stack.Screen name="Order" component={OrderScreen} initialParams={{ currentUser: user }} options={{ title: 'Narudžbina', headerStyle: { backgroundColor: colors.accent } }} />
+              </>
+              : <Stack.Screen name="Loading" component={Loader} options={{ headerShown: false }} />)
+          }
         </Stack.Navigator>
       </NavigationContainer>
+      {!user || !authUser ? null : <Footer thisUser={user} />}
     </PaperProvider>
->>>>>>> Stashed changes
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
