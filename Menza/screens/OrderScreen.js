@@ -8,7 +8,7 @@ import DinnerScreen from './DinnerScreen';
 import { lightTheme, darkTheme } from '../theme/colorScheme';
 import { Button, Dialog, Divider, Paragraph, Portal, useTheme } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
 import Loader from '../components/Loader';
 import { addToOrder } from '../functions/database/addToOrder';
 import OrderDialog from '../components/OrderDialog';
@@ -16,10 +16,11 @@ import OrderDialog from '../components/OrderDialog';
 const Tab = createMaterialTopTabNavigator();
 
 function getStartOfToday() {
-    const now = new Date()
-    now.setHours(0, 0, 0, 0)
-    const timestamp = firestore.Timestamp.fromDate(now)
-    return timestamp
+  const now = new Date();
+  //now.setDate(now.getDate() + 2);
+  now.setHours(0, 0, 0, 0);
+  const timestamp = firestore.Timestamp.fromDate(now);
+  return timestamp;
 }
 
 const OrderScreen = ({ user }) => {
@@ -89,6 +90,6 @@ const OrderScreen = ({ user }) => {
     )
 }
 
-export default OrderScreen
+export default OrderScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
