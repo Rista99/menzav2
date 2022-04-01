@@ -73,7 +73,7 @@ function HomeScreen({navigation}) {
 
   const addToMap = async () => {
     try {
-      const date = new Date('4/1/2022');
+      const date = new Date('4/10/2022');
 
       const day = {
         id: firestoreAutoId(),
