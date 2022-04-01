@@ -37,113 +37,141 @@ function HomeScreen({navigation}) {
   const [qrMeal, setQrMeal] = useState(null);
   const [qrDay, setQrDay] = useState(null);
 
-    const fetchData = async () => {
-        try {
-            await firestore()
-                .collection('users')
-                .doc(auth().currentUser.uid)
-                .collection('orders')
-                .where('date', '>=', getStartOfToday()).onSnapshot(doc => {
-                    setOrderData([])
-                    doc.forEach(async d => {
-                        await setOrderData(orderData => [...orderData, d.data()]);
-                    })
-                });
-        } catch (error) {
-            console.error(error);
-        }
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
+
+  const clearData = () => {
+    setQrDay(null);
+    setQrMeal(null);
+  };
+
+  const fetchData = async () => {
+    try {
+      await firestore()
+        .collection('users')
+        .doc(auth().currentUser.uid)
+        .collection('orders')
+        .where('date', '>=', getStartOfToday())
+        .onSnapshot(doc => {
+          setOrderData([]);
+          doc.forEach(async d => {
+            await setOrderData(orderData => [...orderData, d.data()]);
+          });
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    let abortController = new AbortController();
+    fetchData();
+    return () => {
+      abortController.abort();
     };
+  }, []);
 
-    useEffect(() => {
-        let abortController = new AbortController()
-        fetchData();
-        return () => { abortController.abort() }
-    }, []);
+  const addToMap = async () => {
+    try {
+      const date = new Date('4/1/2022');
 
-    const addToMap = async () => {
-        try {
-            const date = new Date('4/1/2022')
+      const day = {
+        id: firestoreAutoId(),
+        date: date,
+        meals: [
+          {
+            id: firestoreAutoId(),
+            name: 'Jaje na oko sa slaninom',
+            type: 1,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Lisnato testo sa višnjama',
+            type: 1,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Lisnato testo sa sirom',
+            type: 1,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Eurokrem',
+            type: 1,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Bečka šnicla sa varivom od šargarepe i krompirom',
+            type: 2,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Pileći batak sa pirinčem i graškom',
+            type: 2,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Pasulj',
+            type: 2,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Riblja pljeskavica sa krompir pireom',
+            type: 2,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Bečka šnicla sa krompir pireom',
+            type: 3,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Pizza makarone',
+            type: 3,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Pizza',
+            type: 3,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+          {
+            id: firestoreAutoId(),
+            name: 'Riblji štapići sa krompir pireom',
+            type: 3,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+          },
+        ],
+      };
 
-            const day = {
-                id: firestoreAutoId(),
-                date: date,
-                meals: [
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Jaje na oko sa slaninom',
-                        type: 1,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Lisnato testo sa višnjama',
-                        type: 1,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Lisnato testo sa sirom',
-                        type: 1,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Eurokrem',
-                        type: 1,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Bečka šnicla sa varivom od šargarepe i krompirom',
-                        type: 2,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Pileći batak sa pirinčem i graškom',
-                        type: 2,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Pasulj',
-                        type: 2,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Riblja pljeskavica sa krompir pireom',
-                        type: 2,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Bečka šnicla sa krompir pireom',
-                        type: 3,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Pizza makarone',
-                        type: 3,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Pizza',
-                        type: 3,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                    {
-                        id: firestoreAutoId(),
-                        name: 'Riblji štapići sa krompir pireom',
-                        type: 3,
-                        nutrients: 'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.'
-                    },
-                ]
-            }
-
-            await firestore().collection('days').doc(firestore.Timestamp.fromDate(date).toDate().toDateString().toString()).set(day)
+      await firestore()
+        .collection('days')
+        .doc(
+          firestore.Timestamp.fromDate(date).toDate().toDateString().toString(),
+        )
+        .set(day);
 
       await firestore()
         .collection('days')
@@ -156,27 +184,40 @@ function HomeScreen({navigation}) {
     }
   };
 
-    const removeOrder = async (meal, day) => {
-        try {
-            switch (meal.type) {
-                case 1:
-                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojDorucaka: firestore.FieldValue.increment(1) })
-                    break
-                case 2:
-                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojRuckova: firestore.FieldValue.increment(1) })
-                    break
-                case 3:
-                    await firestore().collection('users').doc(auth().currentUser.uid).update({ brojVecera: firestore.FieldValue.increment(1) })
-                    break
-            }
-            await firestore().collection('users').doc(auth().currentUser.uid).collection('orders').doc(day.date.toDate().toDateString()).update({
-                meals: firestore.FieldValue.arrayRemove(meal)
-            })
-        } catch (error) {
-            console.error(error)
-        }
+  const removeOrder = async (meal, day) => {
+    try {
+      switch (meal.type) {
+        case 1:
+          await firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({brojDorucaka: firestore.FieldValue.increment(1)});
+          break;
+        case 2:
+          await firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({brojRuckova: firestore.FieldValue.increment(1)});
+          break;
+        case 3:
+          await firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({brojVecera: firestore.FieldValue.increment(1)});
+          break;
+      }
+      await firestore()
+        .collection('users')
+        .doc(auth().currentUser.uid)
+        .collection('orders')
+        .doc(day.date.toDate().toDateString())
+        .update({
+          meals: firestore.FieldValue.arrayRemove(meal),
+        });
+    } catch (error) {
+      console.error(error);
     }
-  
+  };
 
   return (
     <>
@@ -285,7 +326,7 @@ function HomeScreen({navigation}) {
         onPress={() => navigation.navigate('Order')}
       />
 
-      {qrDay && (
+      {qrMeal && qrDay && (
         <View>
           <Portal>
             <Dialog
@@ -334,36 +375,36 @@ function HomeScreen({navigation}) {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    scrollViewContentStyle: {
-        justifyContent: 'center',
-    },
-    cardStyle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderRadius: 12,
-        flexWrap: 'wrap',
-        marginHorizontal: 10,
-        alignItems: 'center'
-    },
-    cardImageStyle: {
-        marginRight: 10,
-        height: 70,
-        width: 70
-    },
-    cardTextCenter: {
-        fontSize: 15,
-        flexWrap: 'wrap',
-        maxWidth: '50%',
-        textAlign: 'center'
-    },
-    cardTextRight: {
-        fontWeight: '700',
-        fontSize: 20
-    },
-    fab: {
-        position: 'absolute',
-        margin: 16,
-        right: 0,
-        bottom: '-1%',
-    },
+  scrollViewContentStyle: {
+    justifyContent: 'center',
+  },
+  cardStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderRadius: 12,
+    flexWrap: 'wrap',
+    marginHorizontal: 10,
+    alignItems: 'center',
+  },
+  cardImageStyle: {
+    marginRight: 10,
+    height: 70,
+    width: 70,
+  },
+  cardTextCenter: {
+    fontSize: 15,
+    flexWrap: 'wrap',
+    maxWidth: '50%',
+    textAlign: 'center',
+  },
+  cardTextRight: {
+    fontWeight: '700',
+    fontSize: 20,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: '-1%',
+  },
 });
