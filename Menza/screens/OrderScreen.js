@@ -40,9 +40,6 @@ const OrderScreen = ({ user }) => {
     setCurrentDay(null);
   };
 
-  const fetchDays = async () => {
-
-  };
   useEffect(() => {
     try {
       const unsubscribe = await firestore()
