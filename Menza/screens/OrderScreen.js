@@ -1,12 +1,12 @@
-import {StyleSheet, useColorScheme} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { StyleSheet, useColorScheme } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import BreakfastScreen from './BreakfastScreen';
 import LunchScreen from './LunchScreen';
 import DinnerScreen from './DinnerScreen';
-import {lightTheme, darkTheme} from '../theme/colorScheme';
-import {useTheme} from 'react-native-paper';
+import { lightTheme, darkTheme } from '../theme/colorScheme';
+import { useTheme } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import Loader from '../components/Loader';
 import OrderDialog from '../components/OrderDialog';
@@ -21,9 +21,9 @@ function getStartOfToday() {
   return timestamp;
 }
 
-const OrderScreen = ({user}) => {
+const OrderScreen = ({ user }) => {
   const scheme = useColorScheme();
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const [days, setDays] = useState([]);
   const [count, setCount] = useState(0);
   const [currentDayData, setCurrentDayData] = useState(null);
@@ -41,8 +41,11 @@ const OrderScreen = ({user}) => {
   };
 
   const fetchDays = async () => {
+
+  };
+  useEffect(() => {
     try {
-      await firestore()
+      const unsubscribe = await firestore()
         .collection('days')
         .where('date', '>=', getStartOfToday())
         .orderBy('date')
@@ -54,16 +57,10 @@ const OrderScreen = ({user}) => {
             await setDays(days => [...days, d.data()]);
           });
         });
+      return () => unsubscribe()
     } catch (error) {
       console.log(error);
     }
-  };
-  useEffect(() => {
-    let abortController = new AbortController();
-    fetchDays();
-    return () => {
-      abortController.abort();
-    };
   }, []);
 
   return (
@@ -77,7 +74,7 @@ const OrderScreen = ({user}) => {
               name="Breakfast"
               options={{
                 title: 'Doručak',
-                tabBarStyle: {backgroundColor: colors.accent},
+                tabBarStyle: { backgroundColor: colors.accent },
               }}>
               {() => (
                 <BreakfastScreen
@@ -92,7 +89,7 @@ const OrderScreen = ({user}) => {
               name="Lunch"
               options={{
                 title: 'Ručak',
-                tabBarStyle: {backgroundColor: colors.accent},
+                tabBarStyle: { backgroundColor: colors.accent },
               }}>
               {() => (
                 <LunchScreen
@@ -107,7 +104,7 @@ const OrderScreen = ({user}) => {
               name="Dinner"
               options={{
                 title: 'Večera',
-                tabBarStyle: {backgroundColor: colors.accent},
+                tabBarStyle: { backgroundColor: colors.accent },
               }}>
               {() => (
                 <DinnerScreen
