@@ -1,5 +1,5 @@
 import {StyleSheet, useColorScheme} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import BreakfastScreen from './BreakfastScreen';
@@ -10,18 +10,11 @@ import {useTheme} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import Loader from '../components/Loader';
 import OrderDialog from '../components/OrderDialog';
+import getAvailableOrderDay from '../functions/getAvailableOrderDay';
 
 const Tab = createMaterialTopTabNavigator();
 
-function getStartOfToday() {
-  const now = new Date();
-  now.setDate(now.getDate() + 2);
-  now.setHours(0, 0, 0, 0);
-  const timestamp = firestore.Timestamp.fromDate(now);
-  return timestamp;
-}
-
-const OrderScreen = ({user}) => {
+const OrderScreen = () => {
   const scheme = useColorScheme();
   const {colors} = useTheme();
   const [days, setDays] = useState([]);
@@ -29,6 +22,7 @@ const OrderScreen = ({user}) => {
   const [currentDayData, setCurrentDayData] = useState(null);
   const [currentMealData, setCurrentMealData] = useState(null);
   const [visible, setVisible] = useState(false);
+  const user = useContext(useContext);
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -44,7 +38,7 @@ const OrderScreen = ({user}) => {
     try {
       const unsubscribe = firestore()
         .collection('days')
-        .where('date', '>=', getStartOfToday())
+        .where('date', '>=', getAvailableOrderDay())
         .orderBy('date')
         .limit(5)
         .onSnapshot(doc => {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider, useTheme} from 'react-native-paper';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,6 +17,7 @@ import Loader from './components/Loader';
 import BuyTokenScreen from './screens/BuyTokenScreen';
 
 const Stack = createNativeStackNavigator();
+export const UserContext = createContext();
 
 export default function App() {
   const [initializing, setInitializing] = useState(true);
@@ -63,69 +64,66 @@ export default function App() {
   }
 
   return (
-    <PaperProvider
-      settings={{
-        icon: props => <AntDesign {...props} />,
-      }}
-      theme={scheme === 'dark' ? darkTheme : lightTheme}>
-      <NavigationContainer theme={scheme === 'dark' ? darkTheme : lightTheme}>
-        <Stack.Navigator>
-          {!authUser ? (
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{headerShown: false}}
-            />
-          ) : user ? (
-            <>
-              <Stack.Screen
-                name="Home"
-                component={HomeScreen}
-                options={({navigation}) => ({
-                  headerRight: () => (
-                    <HeaderRightButtons navigation={navigation} />
-                  ),
-                  headerTitleAlign: 'left',
-                  title: 'Menza',
-                  headerStyle: {backgroundColor: colors.accent},
-                })}
-              />
-              <Stack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                initialParams={{userProfile: user}}
-                options={{
-                  title: 'Profil',
-                  headerStyle: {backgroundColor: colors.accent},
-                }}
-              />
-              <Stack.Screen
-                name="BuyToken"
-                options={{
-                  title: 'Kupi bonove',
-                  headerStyle: {backgroundColor: colors.accent},
-                }}>
-                {() => <BuyTokenScreen user={user} />}
+    <UserContext.Provider value={user ? user : null}>
+      <PaperProvider
+        settings={{
+          icon: props => <AntDesign {...props} />,
+        }}
+        theme={scheme === 'dark' ? darkTheme : lightTheme}>
+        <NavigationContainer theme={scheme === 'dark' ? darkTheme : lightTheme}>
+          <Stack.Navigator>
+            {!authUser ? (
+              <Stack.Screen name="Login" options={{headerShown: false}}>
+                {props => <LoginScreen {...props} />}
               </Stack.Screen>
-              <Stack.Screen
-                name="Order"
-                options={{
-                  title: 'Narudžbina',
-                  headerStyle: {backgroundColor: colors.accent},
-                }}>
-                {() => <OrderScreen user={user} />}
+            ) : user ? (
+              <>
+                <Stack.Screen
+                  name="Home"
+                  options={({navigation}) => ({
+                    headerRight: () => (
+                      <HeaderRightButtons navigation={navigation} />
+                    ),
+                    headerTitleAlign: 'left',
+                    title: 'Menza',
+                    headerStyle: {backgroundColor: colors.accent},
+                  })}>
+                  {props => <HomeScreen {...props} />}
+                </Stack.Screen>
+                <Stack.Screen
+                  name="Profile"
+                  options={{
+                    title: 'Profil',
+                    headerStyle: {backgroundColor: colors.accent},
+                  }}>
+                  {props => <ProfileScreen {...props} />}
+                </Stack.Screen>
+                <Stack.Screen
+                  name="BuyToken"
+                  options={{
+                    title: 'Kupi bonove',
+                    headerStyle: {backgroundColor: colors.accent},
+                  }}>
+                  {props => <BuyTokenScreen {...props} />}
+                </Stack.Screen>
+                <Stack.Screen
+                  name="Order"
+                  options={{
+                    title: 'Narudžbina',
+                    headerStyle: {backgroundColor: colors.accent},
+                  }}>
+                  {props => <OrderScreen {...props} />}
+                </Stack.Screen>
+              </>
+            ) : (
+              <Stack.Screen name="Loading" options={{headerShown: false}}>
+                {() => <Loader />}
               </Stack.Screen>
-            </>
-          ) : (
-            <Stack.Screen
-              name="Loading"
-              component={Loader}
-              options={{headerShown: false}}
-            />
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
-      {!user || !authUser ? null : <Footer thisUser={user} />}
-    </PaperProvider>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+        {!user || !authUser ? null : <Footer />}
+      </PaperProvider>
+    </UserContext.Provider>
   );
 }

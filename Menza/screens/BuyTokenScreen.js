@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {TextInput, Button, useTheme, IconButton} from 'react-native-paper';
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import {red100} from 'react-native-paper/lib/typescript/styles/colors';
+import {UserContext} from '../App';
+import kupiBonove from '../functions/database/kupiBonove';
 
-const BuyTokenScreen = ({user}) => {
+const BuyTokenScreen = () => {
   const [dorucak, setDorucak] = useState(0);
   const [rucak, setRucak] = useState(0);
   const [vecera, setVecera] = useState(0);
+  const user = useContext(UserContext);
 
   const {colors} = useTheme();
 
@@ -16,6 +16,12 @@ const BuyTokenScreen = ({user}) => {
     if (dorucak > 0) {
       setDorucak(dorucak - 1);
     }
+  };
+
+  const clearData = () => {
+    setDorucak(0);
+    setRucak(0);
+    setVecera(0);
   };
 
   const dorucakPlus = () => {
@@ -40,56 +46,6 @@ const BuyTokenScreen = ({user}) => {
 
   const veceraPlus = () => {
     setVecera(vecera + 1);
-  };
-
-  const kupiBonove = async () => {
-    try {
-      switch (user.nacinFinansiranja) {
-        case 'Budžet': {
-          if (dorucak * 40 + rucak * 72 + vecera * 59 < user.stanjeRacuna) {
-            await firestore()
-              .collection('users')
-              .doc(auth().currentUser.uid)
-              .update({
-                brojDoruckova: user.brojDoruckova + dorucak,
-                brojRuckova: user.brojRuckova + rucak,
-                brojVecera: user.brojVecera + vecera,
-                stanjeRacuna:
-                  user.stanjeRacuna - (dorucak * 40 + rucak * 72 + vecera * 59),
-              });
-          } else {
-            alert('Nemate dovoljno sredstava za kupovinu!');
-          }
-          break;
-        }
-
-        case 'Samofinansiranje': {
-          if (dorucak * 105 + rucak * 225 + vecera * 185 < user.stanjeRacuna) {
-            await firestore()
-              .collection('users')
-              .doc(auth().currentUser.uid)
-              .update({
-                brojDoruckova: user.brojDoruckova + dorucak,
-                brojRuckova: user.brojRuckova + rucak,
-                brojVecera: user.brojVecera + vecera,
-                stanjeRacuna:
-                  user.stanjeRacuna -
-                  (dorucak * 105 + rucak * 225 + vecera * 185),
-              });
-          } else {
-            alert('Nemate dovoljno sredstava za kupovinu!');
-          }
-          break;
-        }
-      }
-    } catch (e) {
-      console.error(e);
-      alert('Neuspešno!');
-    } finally {
-      setDorucak(0);
-      setRucak(0);
-      setVecera(0);
-    }
   };
 
   return (
@@ -199,7 +155,7 @@ const BuyTokenScreen = ({user}) => {
           margin: 10,
         }}>
         <Button
-          onPress={kupiBonove}
+          onPress={() => kupiBonove(dorucak, rucak, vecera, user, clearData)}
           style={[
             styles.button,
             {backgroundColor: colors.accent, width: '100%'},

@@ -21,7 +21,8 @@ const LoginScreen = () => {
     <KeyboardAvoidingView style={styles.container} behavior="height">
       <View
         style={{
-          flex: 1,
+          display: 'flex',
+          flex: 0.1,
           width: '100%',
           alignItems: 'center',
           justifyContent: 'flex-end',
@@ -31,12 +32,18 @@ const LoginScreen = () => {
           style={{width: 120, height: 120}}
         />
       </View>
-      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex',
+          flex: 0.2,
+        }}>
         <Text style={{fontSize: 25, fontWeight: '600'}}>
           Menza Srbija - Login
         </Text>
       </View>
-      <View style={{flex: 1, width: '100%'}}>
+      <View style={{display: 'flex', width: '100%'}}>
         <TextInput
           placeholder="Email"
           placeholderTextColor={colors.placeholder}
@@ -68,7 +75,11 @@ const LoginScreen = () => {
         />
       </View>
       <View
-        style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}>
         <Button
           icon="login"
           contentStyle={{height: 50, flexDirection: 'row-reverse'}}
@@ -93,6 +104,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
   },
   input: {
     borderRadius: 10,

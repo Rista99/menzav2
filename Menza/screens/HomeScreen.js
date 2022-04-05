@@ -6,20 +6,8 @@ import firestore from '@react-native-firebase/firestore';
 import {firestoreAutoId} from '../functions/firestoreAutoId';
 import QRDialog from '../components/QRDialog';
 import {removeOrder} from '../functions/database/removeOrder';
-
-function getStartOfToday() {
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  const timestamp = firestore.Timestamp.fromDate(now);
-  return timestamp;
-}
-
-function getTomorrow() {
-  const now = new Date();
-  now.setDate(now.getDate() + 1);
-  now.setHours(23, 59, 59, 999);
-  return now;
-}
+import getTomorrow from '../functions/getTomorrow';
+import getStartOfToday from '../functions/getStartOfToday';
 
 function HomeScreen({navigation}) {
   const {colors} = useTheme();
@@ -162,104 +150,122 @@ function HomeScreen({navigation}) {
 
   return (
     <>
-      <ScrollView contentContainerStyle={styles.scrollViewContentStyle}>
-        <View style={{marginBottom: '20%'}}>
-          {orderData.map(od => {
-            return (
-              <View key={od.id} style={{width: '100%', marginTop: 10}}>
-                <View
-                  style={[
-                    {
-                      height: 50,
-                      justifyContent: 'center',
-                      backgroundColor: colors.surface,
-                    },
-                  ]}>
-                  <Text
-                    style={{
-                      marginLeft: 20,
-                      fontSize: 20,
-                      fontWeight: '600',
-                      color: colors.onSurface,
-                    }}>
-                    {od.date.toDate().toDateString()}
-                  </Text>
-                </View>
-                {od.meals.length === 0 ? (
-                  <View style={{marginTop: 10}}>
-                    <View
-                      style={[
-                        styles.cardStyle,
-                        {
-                          justifyContent: 'center',
-                          paddingVertical: 25,
-                          backgroundColor: colors.surface,
-                        },
-                      ]}>
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          color: colors.onSurface,
-                        }}>
-                        Nema ništa naručeno
-                      </Text>
-                    </View>
+      <View style={{flex: 1}}>
+        {orderData.length === 0 && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'flex-end',
+              marginHorizontal: '10%',
+            }}>
+            <Text
+              style={{
+                color: colors.placeholder,
+                textAlign: 'center',
+              }}>
+              Pritisnite dugme za naručivanje kako biste naručili obrok.
+            </Text>
+          </View>
+        )}
+        <ScrollView>
+          <View style={{marginBottom: '20%'}}>
+            {orderData.map(od => {
+              return (
+                <View key={od.id} style={{width: '100%', marginTop: 10}}>
+                  <View
+                    style={[
+                      {
+                        height: 50,
+                        justifyContent: 'center',
+                        backgroundColor: colors.surface,
+                      },
+                    ]}>
+                    <Text
+                      style={{
+                        marginLeft: 20,
+                        fontSize: 20,
+                        fontWeight: '600',
+                        color: colors.onSurface,
+                      }}>
+                      {od.date.toDate().toDateString()}
+                    </Text>
                   </View>
-                ) : (
-                  od.meals.map(m => {
-                    return (
-                      <View style={{marginTop: 10}} key={m.id}>
-                        <View
-                          style={[
-                            styles.cardStyle,
-                            {backgroundColor: colors.surface, flex: 1},
-                          ]}>
-                          <Image
-                            source={
-                              m.type === 1
-                                ? require('../images/breakfast.png')
-                                : m.type === 2
-                                ? require('../images/lunch.png')
-                                : m.type === 3
-                                ? require('../images/dinner.png')
-                                : null
-                            }
-                            style={styles.cardImageStyle}
-                          />
-                          <Text
-                            style={[
-                              styles.cardTextCenter,
-                              {color: colors.onSurface},
-                            ]}>
-                            {m.name}
-                          </Text>
-                          {od.date.toDate() > getTomorrow() ? (
-                            <IconButton
-                              icon="delete"
-                              color={colors.error}
-                              onPress={() => removeOrder(m, od)}
-                            />
-                          ) : (
-                            <IconButton
-                              icon="qrcode"
-                              color={colors.black}
-                              onPress={() => {
-                                setQrDay(od);
-                                setQrMeal(m);
-                                showDialog();
-                              }}
-                            />
-                          )}
-                        </View>
+                  {od.meals.length === 0 ? (
+                    <View style={{marginTop: 10}}>
+                      <View
+                        style={[
+                          styles.cardStyle,
+                          {
+                            justifyContent: 'center',
+                            paddingVertical: 25,
+                            backgroundColor: colors.surface,
+                          },
+                        ]}>
+                        <Text
+                          style={{
+                            textAlign: 'center',
+                            color: colors.onSurface,
+                          }}>
+                          Nema ništa naručeno
+                        </Text>
                       </View>
-                    );
-                  })
-                )}
-              </View>
-            );
-          })}
-        </View>
-      </ScrollView>
+                    </View>
+                  ) : (
+                    od.meals.map(m => {
+                      return (
+                        <View style={{marginTop: 10}} key={m.id}>
+                          <View
+                            style={[
+                              styles.cardStyle,
+                              {backgroundColor: colors.surface},
+                            ]}>
+                            <Image
+                              source={
+                                m.type === 1
+                                  ? require('../images/breakfast.png')
+                                  : m.type === 2
+                                  ? require('../images/lunch.png')
+                                  : m.type === 3
+                                  ? require('../images/dinner.png')
+                                  : null
+                              }
+                              style={styles.cardImageStyle}
+                            />
+                            <Text
+                              style={[
+                                styles.cardTextCenter,
+                                {color: colors.onSurface},
+                              ]}>
+                              {m.name}
+                            </Text>
+                            {od.date.toDate() > getTomorrow() ? (
+                              <IconButton
+                                icon="delete"
+                                color={colors.error}
+                                onPress={() => removeOrder(m, od)}
+                              />
+                            ) : (
+                              <IconButton
+                                icon="qrcode"
+                                color={colors.black}
+                                onPress={() => {
+                                  setQrDay(od);
+                                  setQrMeal(m);
+                                  showDialog();
+                                }}
+                              />
+                            )}
+                          </View>
+                        </View>
+                      );
+                    })
+                  )}
+                </View>
+              );
+            })}
+          </View>
+        </ScrollView>
+      </View>
       {/* <Button onPress={addToMap}>Add hardcodded meal</Button> */}
       <FAB
         icon="edit"
@@ -282,9 +288,6 @@ function HomeScreen({navigation}) {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  scrollViewContentStyle: {
-    justifyContent: 'center',
-  },
   cardStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',

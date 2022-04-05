@@ -1,23 +1,22 @@
 import {firestoreAutoId} from '../firestoreAutoId';
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-const addToOrder = async (currentUser, meal, day) => {
+const addToOrder = async (user, meal, day) => {
   try {
     // Preuzimanje order-a
     const order = await firestore()
       .collection('users')
-      .doc(auth().currentUser.uid)
+      .doc(user.userID)
       .collection('orders')
       .doc(day.date.toDate().toDateString())
       .get();
     switch (meal.type) {
       case 1:
-        if (currentUser.brojDoruckova !== 0) {
+        if (user.brojDoruckova !== 0) {
           if (!order.exists) {
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .collection('orders')
               .doc(day.date.toDate().toDateString())
               .set({
@@ -28,7 +27,7 @@ const addToOrder = async (currentUser, meal, day) => {
 
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .update({brojDoruckova: firestore.FieldValue.increment(-1)});
           } else if (order.exists) {
             let counter = 0;
@@ -42,7 +41,7 @@ const addToOrder = async (currentUser, meal, day) => {
             });
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .collection('orders')
               .doc(day.date.toDate().toDateString())
               .update({
@@ -56,7 +55,7 @@ const addToOrder = async (currentUser, meal, day) => {
 
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .update({brojDoruckova: firestore.FieldValue.increment(-1)});
           }
         } else {
@@ -64,11 +63,11 @@ const addToOrder = async (currentUser, meal, day) => {
         }
         break;
       case 2:
-        if (currentUser.brojRuckova !== 0) {
+        if (user.brojRuckova !== 0) {
           if (!order.exists) {
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .collection('orders')
               .doc(day.date.toDate().toDateString())
               .set({
@@ -78,7 +77,7 @@ const addToOrder = async (currentUser, meal, day) => {
               });
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .update({brojRuckova: firestore.FieldValue.increment(-1)});
           } else if (order.exists) {
             let counter = 0;
@@ -92,7 +91,7 @@ const addToOrder = async (currentUser, meal, day) => {
             });
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .collection('orders')
               .doc(day.date.toDate().toDateString())
               .update({
@@ -106,7 +105,7 @@ const addToOrder = async (currentUser, meal, day) => {
 
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .update({brojRuckova: firestore.FieldValue.increment(-1)});
           }
         } else {
@@ -114,11 +113,11 @@ const addToOrder = async (currentUser, meal, day) => {
         }
         break;
       case 3:
-        if (currentUser.brojVecera !== 0) {
+        if (user.brojVecera !== 0) {
           if (!order.exists) {
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .collection('orders')
               .doc(day.date.toDate().toDateString())
               .set({
@@ -129,7 +128,7 @@ const addToOrder = async (currentUser, meal, day) => {
 
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .update({brojVecera: firestore.FieldValue.increment(-1)});
           } else if (order.exists) {
             let counter = 0;
@@ -143,7 +142,7 @@ const addToOrder = async (currentUser, meal, day) => {
             });
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .collection('orders')
               .doc(day.date.toDate().toDateString())
               .update({
@@ -157,7 +156,7 @@ const addToOrder = async (currentUser, meal, day) => {
 
             await firestore()
               .collection('users')
-              .doc(auth().currentUser.uid)
+              .doc(user.userID)
               .update({brojVecera: firestore.FieldValue.increment(-1)});
           }
         } else {

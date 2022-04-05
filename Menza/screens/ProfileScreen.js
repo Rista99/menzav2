@@ -1,13 +1,14 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useContext} from 'react';
 import {Button, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Loader from '../components/Loader';
+import {UserContext} from '../App';
 
 const ProfileScreen = ({route, navigation}) => {
   const {colors} = useTheme();
-  const {userProfile} = route.params;
+  const userProfile = useContext(UserContext);
 
   return (
     <>
@@ -91,22 +92,38 @@ const ProfileScreen = ({route, navigation}) => {
                 {userProfile.nacinFinansiranja}
               </Text>
             </View>
-            <View
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Button
-                style={{
-                  width: '50%',
-                  borderRadius: 3,
-                }}
-                onPress={() => navigation.navigate('BuyToken')}>
-                Kupi bonove
-              </Button>
+            <View style={styles.viewStyle}>
+              <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+                Žiro račun:
+              </Text>
+              <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+                840-1710666-12
+              </Text>
+            </View>
+            <View style={styles.viewStyle}>
+              <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+                Poziv na broj:
+              </Text>
+              <Text style={[styles.textStyle, {color: colors.onSurface}]}>
+                (97) {userProfile.pozivNaBroj}
+              </Text>
             </View>
           </ScrollView>
+          <View
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Button
+              style={{
+                width: '50%',
+                borderRadius: 3,
+              }}
+              onPress={() => navigation.navigate('BuyToken')}>
+              Kupi bonove
+            </Button>
+          </View>
         </>
       ) : (
         <Loader />

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View} from 'react-native';
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   Divider,
   useTheme,
 } from 'react-native-paper';
+import {UserContext} from '../App';
 import {addToOrder} from '../functions/database/addToOrder';
 
 const OrderDialog = ({
@@ -16,10 +17,9 @@ const OrderDialog = ({
   clearData,
   currentMealData,
   currentDayData,
-  user,
 }) => {
   const {colors} = useTheme();
-
+  const user = useContext(UserContext);
   useEffect(() => {
     return () => clearData();
   }, []);
