@@ -155,13 +155,6 @@ function HomeScreen({navigation}) {
           firestore.Timestamp.fromDate(date).toDate().toDateString().toString(),
         )
         .set(day);
-
-      await firestore()
-        .collection('days')
-        .doc(
-          firestore.Timestamp.fromDate(date).toDate().toDateString().toString(),
-        )
-        .set(day);
     } catch (error) {
       console.error(error);
     }
