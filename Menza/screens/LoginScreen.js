@@ -5,49 +5,86 @@ import {
   KeyboardAvoidingView,
   TextInput,
   View,
-  useColorScheme
+  useColorScheme,
 } from 'react-native';
-import React, { useState } from 'react';
-import { signIn } from '../functions/signIn';
-import { Button, useTheme } from 'react-native-paper';
+import React, {useState} from 'react';
+import {signIn} from '../functions/signIn';
+import {Button, useTheme} from 'react-native-paper';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   const scheme = useColorScheme();
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="height">
-      <View style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Image source={require('../images/welcome.png')} style={{ width: 120, height: 120 }} />
+      <View
+        style={{
+          flex: 1,
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+        }}>
+        <Image
+          source={require('../images/welcome.png')}
+          style={{width: 120, height: 120}}
+        />
       </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-        <Text style={{ fontSize: 25, fontWeight: '600' }}>Menza Srbija - Login</Text>
+      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+        <Text style={{fontSize: 25, fontWeight: '600'}}>
+          Menza Srbija - Login
+        </Text>
       </View>
-      <View style={{ flex: 1, width: '100%' }}>
+      <View style={{flex: 1, width: '100%'}}>
         <TextInput
           placeholder="Email"
           placeholderTextColor={colors.placeholder}
-          autoCapitalize='none'
+          autoCapitalize="none"
           value={email}
           onChangeText={text => setEmail(text)}
-          style={[styles.input, { backgroundColor: colors.surface, color: scheme === 'dark' ? colors.onSurface : colors.accent }]}
+          style={[
+            styles.input,
+            {
+              backgroundColor: colors.surface,
+              color: scheme === 'dark' ? colors.onSurface : colors.accent,
+            },
+          ]}
         />
         <TextInput
           placeholder="Password"
-          autoCapitalize='none'
+          autoCapitalize="none"
           placeholderTextColor={colors.placeholder}
           value={password}
           onChangeText={text => setPassword(text)}
-          style={[styles.input, { backgroundColor: colors.surface, color: scheme === 'dark' ? colors.onSurface : colors.accent }]}
+          style={[
+            styles.input,
+            {
+              backgroundColor: colors.surface,
+              color: scheme === 'dark' ? colors.onSurface : colors.accent,
+            },
+          ]}
           secureTextEntry
         />
       </View>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
-        <Button icon='login' contentStyle={{ height: 50, flexDirection: 'row-reverse' }} style={{ borderRadius: 10, marginTop: '10%', width: '50%', backgroundColor: colors.primary }} mode="outlined" color={colors.accent} onPress={() => signIn(email, password)}>Log in</Button>
+      <View
+        style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
+        <Button
+          icon="login"
+          contentStyle={{height: 50, flexDirection: 'row-reverse'}}
+          style={{
+            borderRadius: 10,
+            marginTop: '10%',
+            width: '50%',
+            backgroundColor: colors.primary,
+          }}
+          mode="outlined"
+          color={colors.accent}
+          onPress={() => signIn(email, password)}>
+          Log in
+        </Button>
       </View>
-    </KeyboardAvoidingView >
+    </KeyboardAvoidingView>
   );
 };
 
@@ -61,6 +98,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
     marginHorizontal: '13%',
-    paddingHorizontal: '5%'
+    paddingHorizontal: '5%',
   },
 });
