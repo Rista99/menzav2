@@ -24,27 +24,30 @@ const LunchScreen = ({days, setCurrentDay, setCurrentMeal, showDialog}) => {
                   .filter(m => m.type === 2)
                   .map(m => {
                     return (
-                      <View key={m.id} style={{}}>
+                      <View key={m.mealID} style={{}}>
                         <List.Item
-                          titleNumberOfLines={3}
+                          titleNumberOfLines={4}
                           left={() => (
                             <Image
-                              style={{width: 50, height: 50}}
+                              style={{
+                                minWidth: 60,
+                                minHeight: 60,
+                                maxWidth: 70,
+                                maxHeight: 70,
+                              }}
                               source={require('../images/lunch.png')}
                             />
                           )}
-                          title={m.name}
+                          title={m.posno ? `Posno: ${m.name}` : m.name}
                           onPress={() => {
                             setCurrentMeal(m);
                             setCurrentDay(d);
                             showDialog();
                           }}
-                          style={{
-                            backgroundColor: colors.surface,
-                            marginVertical: 5,
-                            borderRadius: 20,
-                            marginHorizontal: 15,
-                          }}
+                          style={[
+                            styles.listItem,
+                            {backgroundColor: colors.surface},
+                          ]}
                           titleStyle={{
                             color: colors.onSurface,
                             textAlign: 'center',
@@ -63,4 +66,12 @@ const LunchScreen = ({days, setCurrentDay, setCurrentMeal, showDialog}) => {
 
 export default LunchScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  listItem: {
+    marginVertical: 5,
+    borderRadius: 10,
+    marginHorizontal: 15,
+    padding: 1,
+    paddingRight: 5,
+  },
+});

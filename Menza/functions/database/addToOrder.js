@@ -22,7 +22,10 @@ const addToOrder = async (user, meal, day) => {
               .set({
                 id: firestoreAutoId(),
                 date: day.date,
-                meals: firestore.FieldValue.arrayUnion(meal),
+                meals: firestore.FieldValue.arrayUnion({
+                  ...meal,
+                  id: firestoreAutoId(),
+                }),
               });
 
             await firestore()
@@ -45,12 +48,10 @@ const addToOrder = async (user, meal, day) => {
               .collection('orders')
               .doc(day.date.toDate().toDateString())
               .update({
-                meals: firestore.FieldValue.arrayUnion(
-                  (meal = {
-                    ...meal,
-                    id: firestoreAutoId(),
-                  }),
-                ),
+                meals: firestore.FieldValue.arrayUnion({
+                  ...meal,
+                  id: firestoreAutoId(),
+                }),
               });
 
             await firestore()

@@ -28,7 +28,7 @@ const OrderDialog = ({
     <View>
       <Portal>
         <Dialog
-          style={{borderRadius: 15, maxHeight: '60%', minHeight: '50%'}}
+          style={{borderRadius: 15, maxHeight: '70%', minHeight: '30%'}}
           visible={visible}
           onDismiss={() => {
             hideDialog();

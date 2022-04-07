@@ -126,5 +126,3 @@ const OrderScreen = () => {
 };
 
 export default OrderScreen;
-
-const styles = StyleSheet.create({});
