@@ -42,118 +42,118 @@ function HomeScreen({navigation}) {
     }
   }, []);
 
-  // const addToMap = async () => {
-  //   try {
-  //     const date = new Date('4/8/2022');
+  const addToMap = async () => {
+    try {
+      const date = new Date('5/17/2022');
 
-  //     const day = {
-  //       id: firestoreAutoId(),
-  //       date: date,
-  //       meals: [
-  //         {
-  //           mealID: '8ioT4F7DXL1ERsXuvfYb7rtyHFD4yA',
-  //           name: 'Sendvič sa margarinom, šunkom, sirom i jajima, jogurt',
-  //           type: 1,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: false,
-  //         },
-  //         {
-  //           mealID: 'SPQLV4NpIVJm5KmFQPNZa1XTnnntsI',
-  //           name: 'Slano pecivo, čaj',
-  //           type: 1,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: true,
-  //         },
-  //         {
-  //           mealID: 'LxxxR5quKEprPJYzbtqAeVQOX8pKWB',
-  //           name: 'Pizza, jogurt',
-  //           type: 1,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: false,
-  //         },
-  //         {
-  //           mealID: 'fFKv3ewDBTeebu5y5DC9VaLbUs6Nja',
-  //           name: 'Eurokrem, čaj, hleb, kornfleks',
-  //           type: 1,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: false,
-  //         },
-  //         {
-  //           mealID: 'Q8B2acBJUoujktEi4xDcDNS8c3x3jV',
-  //           name: 'Riblja pljeskavica sa krompir pireom, supa, voće, hleb',
-  //           type: 2,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: true,
-  //         },
-  //         {
-  //           mealID: 'OA0PYzwisGOTmt4lR4IqUwOUy9bJNn',
-  //           name: 'Pasulj, pečena kobasica, supa, čokoladica, hleb',
-  //           type: 2,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: false,
-  //         },
-  //         {
-  //           mealID: 'LjIF9ZWGRjmlDMvWz9Cmz1DUwGrzDF',
-  //           name: 'Francuski krompir, salata, čokoladica, hleb, čorba od povrća',
-  //           type: 2,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: false,
-  //         },
-  //         {
-  //           mealID: 'x3vLlDyEQOD9nDLFV8jx9agqeIlgZ8',
-  //           name: 'Pizza, jogurt',
-  //           type: 3,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: false,
-  //         },
-  //         {
-  //           mealID: 'edX5hZOrwWkzyGeiQaV1JdtXtZAOYD',
-  //           name: 'Pizza makarone, salata, hleb',
-  //           type: 3,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: false,
-  //         },
-  //         {
-  //           mealID: 'EY4N4iI0DLg3Uw25Tw1Ofet7ZPp413',
-  //           name: 'Pohovani kačkavalj, krompir pire, salata, hleb',
-  //           type: 3,
-  //           nutrients:
-  //             'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //           posno: false,
-  //         },
-  //       ],
-  //     };
+      const day = {
+        id: firestoreAutoId(),
+        date: date,
+        meals: [
+          {
+            mealID: '8ioT4F7DXL1ERsXuvfYb7rtyHFD4yA',
+            name: 'Sendvič sa margarinom, šunkom, sirom i jajima, jogurt',
+            type: 1,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: false,
+          },
+          {
+            mealID: 'SPQLV4NpIVJm5KmFQPNZa1XTnnntsI',
+            name: 'Slano pecivo, čaj',
+            type: 1,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: true,
+          },
+          {
+            mealID: 'LxxxR5quKEprPJYzbtqAeVQOX8pKWB',
+            name: 'Pizza, jogurt',
+            type: 1,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: false,
+          },
+          {
+            mealID: 'fFKv3ewDBTeebu5y5DC9VaLbUs6Nja',
+            name: 'Eurokrem, čaj, hleb, kornfleks',
+            type: 1,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: false,
+          },
+          {
+            mealID: 'Q8B2acBJUoujktEi4xDcDNS8c3x3jV',
+            name: 'Riblja pljeskavica sa krompir pireom, supa, voće, hleb',
+            type: 2,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: true,
+          },
+          {
+            mealID: 'OA0PYzwisGOTmt4lR4IqUwOUy9bJNn',
+            name: 'Pasulj, pečena kobasica, supa, čokoladica, hleb',
+            type: 2,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: false,
+          },
+          {
+            mealID: 'LjIF9ZWGRjmlDMvWz9Cmz1DUwGrzDF',
+            name: 'Francuski krompir, salata, čokoladica, hleb, čorba od povrća',
+            type: 2,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: false,
+          },
+          {
+            mealID: 'x3vLlDyEQOD9nDLFV8jx9agqeIlgZ8',
+            name: 'Pizza, jogurt',
+            type: 3,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: false,
+          },
+          {
+            mealID: 'edX5hZOrwWkzyGeiQaV1JdtXtZAOYD',
+            name: 'Pizza makarone, salata, hleb',
+            type: 3,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: false,
+          },
+          {
+            mealID: 'EY4N4iI0DLg3Uw25Tw1Ofet7ZPp413',
+            name: 'Pohovani kačkavalj, krompir pire, salata, hleb',
+            type: 3,
+            nutrients:
+              'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+            posno: true,
+          },
+        ],
+      };
 
-  //     let id = firestoreAutoId();
+      let id = firestoreAutoId();
 
-  //     const meal = {
-  //       id: id,
-  //       name: 'Pohovani kačkavalj, krompir pire, salata, hleb',
-  //       nutrients:
-  //         'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
-  //       type: 3,
-  //       posno: false,
-  //     };
+      const meal = {
+        id: id,
+        name: 'Pohovani kačkavalj, krompir pire, salata, hleb',
+        nutrients:
+          'Calories from Fat 247. Calories 433.\n42% Total Fat 27g.\n60% Saturated Fat 12g.\n79% Cholesterol 238mg.\n35% Sodium 838mg.\n8% Potassium 263mg.\n9% Total Carbohydrates 27g.',
+        type: 3,
+        posno: false,
+      };
 
-  //     await firestore()
-  //       .collection('days')
-  //       .doc(
-  //         firestore.Timestamp.fromDate(date).toDate().toDateString().toString(),
-  //       )
-  //       .set(day);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+      await firestore()
+        .collection('days')
+        .doc(
+          firestore.Timestamp.fromDate(date).toDate().toDateString().toString(),
+        )
+        .set(day);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -273,7 +273,7 @@ function HomeScreen({navigation}) {
           </View>
         </ScrollView>
       </View>
-      {/* <Button onPress={addToMap}>Add hardcodded meal</Button> */}
+      <Button onPress={addToMap}>Add hardcodded meal</Button>
       <FAB
         icon="edit"
         style={[[styles.fab], {backgroundColor: colors.primary}]}

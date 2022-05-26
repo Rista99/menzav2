@@ -43,10 +43,14 @@ const DinnerScreen = ({days, setCurrentDay, setCurrentMeal, showDialog}) => {
                             setCurrentDay(d);
                             showDialog();
                           }}
-                          style={[
-                            styles.listItem,
-                            {backgroundColor: colors.surface},
-                          ]}
+                          style={
+                            m.posno
+                              ? [styles.listItem, {backgroundColor: '#00ff66'}]
+                              : [
+                                  styles.listItem,
+                                  {backgroundColor: colors.surface},
+                                ]
+                          }
                           titleStyle={{color: colors.onSurface}}></List.Item>
                       </View>
                     );
