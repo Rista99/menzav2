@@ -44,7 +44,7 @@ function HomeScreen({navigation}) {
 
   const addToMap = async () => {
     try {
-      const date = new Date('5/17/2022');
+      const date = new Date('6/2/2022');
 
       const day = {
         id: firestoreAutoId(),
@@ -218,54 +218,56 @@ function HomeScreen({navigation}) {
                       </View>
                     </View>
                   ) : (
-                    o.meals.map(m => {
-                      return (
-                        <View style={{marginTop: 10}} key={m.id}>
-                          <View
-                            style={[
-                              styles.cardStyle,
-                              {backgroundColor: colors.surface},
-                            ]}>
-                            <Image
-                              source={
-                                m.type === 1
-                                  ? require('../images/breakfast.png')
-                                  : m.type === 2
-                                  ? require('../images/lunch.png')
-                                  : m.type === 3
-                                  ? require('../images/dinner.png')
-                                  : null
-                              }
-                              style={styles.cardImageStyle}
-                            />
-                            <Text
+                    o.meals
+                      .sort((a, b) => (a.type > b.type ? 1 : -1))
+                      .map(m => {
+                        return (
+                          <View style={{marginTop: 10}} key={m.id}>
+                            <View
                               style={[
-                                styles.cardTextCenter,
-                                {color: colors.onSurface},
+                                styles.cardStyle,
+                                {backgroundColor: colors.surface},
                               ]}>
-                              {m.name}
-                            </Text>
-                            {o.date.toDate() > getTomorrow() ? (
-                              <IconButton
-                                icon="delete"
-                                color={colors.error}
-                                onPress={() => removeOrder(m, o)}
+                              <Image
+                                source={
+                                  m.type === 1
+                                    ? require('../images/breakfast.png')
+                                    : m.type === 2
+                                    ? require('../images/lunch.png')
+                                    : m.type === 3
+                                    ? require('../images/dinner.png')
+                                    : null
+                                }
+                                style={styles.cardImageStyle}
                               />
-                            ) : (
-                              <IconButton
-                                icon="qrcode"
-                                color={colors.black}
-                                onPress={() => {
-                                  setQrDay(o);
-                                  setQrMeal(m);
-                                  showDialog();
-                                }}
-                              />
-                            )}
+                              <Text
+                                style={[
+                                  styles.cardTextCenter,
+                                  {color: colors.onSurface},
+                                ]}>
+                                {m.name}
+                              </Text>
+                              {o.date.toDate() > getTomorrow() ? (
+                                <IconButton
+                                  icon="delete"
+                                  color={colors.error}
+                                  onPress={() => removeOrder(m, o)}
+                                />
+                              ) : (
+                                <IconButton
+                                  icon="qrcode"
+                                  color={colors.black}
+                                  onPress={() => {
+                                    setQrDay(o);
+                                    setQrMeal(m);
+                                    showDialog();
+                                  }}
+                                />
+                              )}
+                            </View>
                           </View>
-                        </View>
-                      );
-                    })
+                        );
+                      })
                   )}
                 </View>
               );
@@ -273,7 +275,7 @@ function HomeScreen({navigation}) {
           </View>
         </ScrollView>
       </View>
-      <Button onPress={addToMap}>Add hardcodded meal</Button>
+      {/* <Button onPress={addToMap}>Add hardcodded meal</Button> */}
       <FAB
         icon="edit"
         style={[[styles.fab], {backgroundColor: colors.primary}]}

@@ -43,7 +43,7 @@ const BreakfastScreen = ({days, setCurrentDay, setCurrentMeal, showDialog}) => {
                           }}
                           style={
                             m.posno
-                              ? [styles.listItem, {backgroundColor: '#00ff66'}]
+                              ? [styles.listItem, {backgroundColor: '#054640'}]
                               : [
                                   styles.listItem,
                                   {
